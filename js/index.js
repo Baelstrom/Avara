@@ -31,8 +31,6 @@ function toggleMenuIcon () {
 function staggerMenuItems () {
   // let menuItems = getByClassName('sideMenuList').childNodes
   let menuItems = getByClassName('sideMenuList')[0].childNodes
-
-
   if(menuToggle) {
     TweenLite.to(menuItems, 0.2, {opacity: 0})
   } else {
