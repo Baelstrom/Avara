@@ -87,20 +87,29 @@ body {
     width:24px;
 
     .chevron1{
+      opacity: 0.25;
+      position: relative;
+      top:80px;
+    }
+    .chevron2{
+      opacity: 0.5;
       position: relative;
       top:60px;
     }
-    .chevron2{
+    .chevron3{
+      opacity: 1;
       position: relative;
       top:40px;
     }
-    .chevron3{
+    .chevron4{
+      opacity: 0.5;
       position: relative;
       top:20px;
+
     }
-    .chevron4{
+    .chevron5{
+      opacity: 0.25;
       position: relative;
-      // top:20px;
     }
   }
 }
