@@ -7,14 +7,15 @@
     <link rel="stylesheet" type="text/css" href="./css/index.css">
     <link href="https://fonts.googleapis.com/css?family=Cedarville+Cursive" rel="stylesheet">
     <link rel="stylesheet" ref="https://fonts.googleapis.com/css?family=Rasa|Roboto" >
+    <script src="./js/index.js"></script>
   </head>
   <body>
 
     <div id="mainContainer">
 
       <input id="menuIcon" type="checkbox" role="button"/>
-      <label id='icon-close-black' for="menuIcon"><img src="./images/icon-close-black.png" alt="menu icon"></img></label>
-      <label id='icon-menu-white' for="menuIcon"><img src="./images/icon-menu-white.png" alt="menu icon"></img></label>
+      <label onclick="toggleMenu()" id='icon-close-black' for="menuIcon"><img src="./images/icon-close-black.png" alt="menu icon"></img></label>
+      <label onclick="toggleMenu()" id='icon-menu-white' for="menuIcon"><img src="./images/icon-menu-white.png" alt="menu icon"></img></label>
 
       <div id="sideBar">
         <div class="sideMenuList">
