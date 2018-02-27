@@ -16,14 +16,38 @@ body {
   background-color: red; }
 
 #sideBar {
+  text-align: center;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
   width: 20%;
   left: -20%;
   position: absolute;
   min-height: 100%;
-  background-color: #EEE;
+  background-color: #FFF;
   color: #222;
   -moz-transition: left 0.5s ease;
   transition: left 0.5s ease; }
+  #sideBar div {
+    padding-top: 20px; }
+  #sideBar a {
+    font-family: 'Rasa', serif;
+    text-align: center;
+    text-decoration: none;
+    font-size: 2em; }
+    #sideBar a:visited {
+      color: #333; }
+  #sideBar .logo {
+    font-family: "Cedarville Cursive", cursive !important;
+    font-size: 2em;
+    position: absolute;
+    bottom: 2%;
+    text-align: center;
+    width: 100%; }
+
+.sideMenuList {
+  list-style: none;
+  height: 100%; }
 
 #menuIcon {
   position: absolute;
