@@ -1,12 +1,16 @@
 body {
   height: 100%;
   width: 100%;
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
   background-color: #222;
   font-weight: 600;
   color: white;
   font-family: 'Roboto', sans-serif; }
+
+p {
+  margin: 0px;
+  padding: 0px; }
 
 #mainContainer {
   display: flex;
@@ -29,17 +33,17 @@ body {
   -moz-transition: left 0.5s ease;
   transition: left 0.5s ease; }
   #sideBar div {
-    padding-top: 20px; }
+    padding-top: 15%; }
   #sideBar a {
     font-family: 'Rasa', serif;
     text-align: center;
     text-decoration: none;
-    font-size: 2em; }
+    font-size: 4vmin; }
     #sideBar a:visited {
       color: #333; }
   #sideBar .logo {
     font-family: "Cedarville Cursive", cursive !important;
-    font-size: 2em;
+    font-size: 4vmin;
     position: absolute;
     bottom: 2%;
     text-align: center;
@@ -51,9 +55,17 @@ body {
 
 #menuIcon {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 3vmin;
+  height: 3vmin;
   z-index: 3; }
+
+#icon-close-black img {
+  width: 4vmin;
+  height: 4vmin; }
+
+#icon-close-white img {
+  width: 4vmin;
+  height: 4vmin; }
 
 #scrollPrompt {
   position: absolute;
@@ -118,20 +130,19 @@ label {
 
 #mainHeading {
   font-family: 'Rasa', serif;
-  font-size: 6em;
-  position: relative;
-  top: -60px; }
+  font-size: 8vmin;
+  top: -15%;
+  position: relative; }
   #mainHeading p {
-    margin: 0px;
-    padding: 30px 0px; }
+    margin: 0px; }
 
 #subHeading {
   margin: 0px;
   font-weight: 200;
-  font-size: 2em;
+  font-size: 4vmin;
   font-style: italic;
   position: relative;
-  top: -90px; }
+  top: -13%; }
 
 #landingPage {
   margin: 0px;
@@ -145,40 +156,38 @@ label {
 .introList {
   align-items: center;
   justify-content: center;
-  padding: 50px;
-  position: relative;
-  top: -90px;
-  width:30%;
   font-weight: 300;
-  font-size: 1.3em; }
+  font-size: 2.5vmin;
+  width: 40%;
+  top: -5%; }
 
 .introListIcon {
   display: flex;
   align-items: center;
   justify-content: center; }
   .introListIcon img {
-    width: 30px;
-    height: 30px; }
+    width: 3vmin;
+    height: 3vmin; }
 
 .introListItem {
   display: flex;
   flex-direction: row;
   align-items: center; }
   .introListItem * {
-    margin-left: 33px; }
+    margin-left: 6%; }
 
 .introListSeperator {
   background-color: white;
-  width: 2px;
-  height: 50px; }
+  width: 1px;
+  height: 6vmin; }
 
 .introListSpacer {
-  padding: 10px; }
+  padding: 2%; }
 
 .skipToFav {
   position: relative;
-  top: -60px;
-  font-size: 1.3em;
+  top: 10%;
+  font-size: 2.5vmin;
   font-weight: 300;
   color: white; }
   .skipToFav a:visited {
