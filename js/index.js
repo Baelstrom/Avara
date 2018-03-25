@@ -1,7 +1,3 @@
-
-
-
-
 //            ___  __      ___   ____   ___  __       __ __  ___  ____   __
 //            // \\ ||     // \\  || )) // \\ ||       || || // \\ || \\ (( \
 //           (( ___ ||    ((   )) ||=)  ||=|| ||       \\ // ||=|| ||_//  \\
@@ -12,7 +8,7 @@ let menuToggle = true
 let animating = false
 let currentScene = 0
 let end = false
-
+let masterTimeline = new TimelineMax()
 
 //             __  ______  ___  ______  ____    ___  ___  ___    ___ __  __ __ __  __  ____
 //            (( \ | || | // \\ | || | ||       ||\\//|| // \\  //   ||  || || ||\ || ||
@@ -22,7 +18,7 @@ let end = false
 // create scenes array as machine
 let scenes = [
   firstTransition(),
-  // secondTransition()
+  secondTransition()
 ]
 
 // init function
@@ -30,13 +26,8 @@ function init() {
   nextScene()
 }
 
-// get the engine running
+// get the engine started
 init()
-
-//             __    ___  ____ __  __  ____    ____    ____  ____ __ __  __ __ ______ __   ___   __  __  __
-//            (( \  //   ||    ||\ || ||       || \\  ||    ||    || ||\ || || | || | ||  // \\  ||\ || (( \
-//             \\  ((    ||==  ||\\|| ||==     ||  )) ||==  ||==  || ||\\|| ||   ||   || ((   )) ||\\||  \\
-//            \_))  \\__ ||___ || \|| ||___    ||_//  ||___ ||    || || \|| ||   ||   ||  \\_//  || \|| \_))
 
 // this is what turns the wheels in motion
 function nextScene() {
@@ -52,6 +43,20 @@ function nextScene() {
 
 }
 
+
+//             __    ___  ____ __  __  ____    ____    ____  ____ __ __  __ __ ______ __   ___   __  __  __
+//            (( \  //   ||    ||\ || ||       || \\  ||    ||    || ||\ || || | || | ||  // \\  ||\ || (( \
+//             \\  ((    ||==  ||\\|| ||==     ||  )) ||==  ||==  || ||\\|| ||   ||   || ((   )) ||\\||  \\
+//            \_))  \\__ ||___ || \|| ||___    ||_//  ||___ ||    || || \|| ||   ||   ||  \\_//  || \|| \_))
+
+
+
+// ------------------------------------------------
+// ================================================
+//          SCENE ONE -- landing page
+// ================================================
+// ------------------------------------------------
+
 function firstTransition () {
   return {
     id: 0,
@@ -60,7 +65,7 @@ function firstTransition () {
     start() {
       // initialize Timeline
       var introTimeline = new TimelineMax()
-
+      // introTimeline.timeScale(4)
       // set animating as true
       introTimeline.add(toggleAnimationState)
 
@@ -74,7 +79,6 @@ function firstTransition () {
       let introListItemArray = []
       for(var i = introListItems.length; i--; introListItemArray.unshift(introListItems[i]));
       introListItems = introListItemArray.filter( item => item.className === 'introListItem')
-
       // start animations
       introTimeline.add(TweenLite.from(mainHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut}))
       introTimeline.add(TweenLite.from(subHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut}).delay(0.3))
@@ -93,6 +97,40 @@ function firstTransition () {
       // start next scene
       end = true
       introTimeline.add(nextScene)
+    },
+  }
+}
+
+// ------------------------------------------------
+// ================================================
+//          SCENE TWO - show anim canvas
+// ================================================
+// ------------------------------------------------
+
+function secondTransition () {
+  return {
+    id: 1,
+    name: 'animationCanvas',
+    description: 'show animation canvas',
+    start() {
+      // initialize Timeline
+      var secondTimeline = new TimelineMax()
+
+      // set animating as true
+      secondTimeline.add(toggleAnimationState)
+
+      // declare all the elements needed
+      let animationContainer = getById("animationContainer")
+
+      // start animations
+      secondTimeline.add(TweenLite.to(animationContainer, 1.5, {top: '0vh',ease:Power2.easeOut}))
+
+      // toggle animating as false
+      secondTimeline.add(toggleAnimationState)
+
+      // start next scene
+      end = true
+      secondTimeline.add(nextScene)
     },
   }
 }
@@ -205,8 +243,9 @@ function detectMouseWheelDirection( e )
 function handleMouseWheelDirection( direction )
 {
     console.log( direction ); // see the direction in the console
-    if ( direction == 'down' && !animating) {
-
+    if ( direction == 'down' && !animating && currentScene === 1) {
+      end = false;
+      scenes[1].start()
     } else if ( direction == 'up' && !animating) {
 
     } else {
@@ -222,5 +261,34 @@ function scrollMeSilly() {
       document.addEventListener( 'DOMMouseScroll', function( e ) {
           handleMouseWheelDirection( detectMouseWheelDirection( e ) );
       });
+  }
+}
+
+
+function x () {
+  return {
+    id: 1,
+    name: '',
+    description: '',
+    start() {
+      // initialize Timeline
+      var introTimeline = new TimelineMax()
+
+      // set animating as true
+      introTimeline.add(toggleAnimationState)
+
+      // declare all the elements needed
+
+
+      // start animations
+
+
+      // toggle animating as false
+      introTimeline.add(toggleAnimationState)
+
+      // start next scene
+      end = true
+      introTimeline.add(nextScene)
+    },
   }
 }
