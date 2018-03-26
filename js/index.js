@@ -10,6 +10,7 @@ let currentScene = 0
 let end = false
 let masterTimeline = new TimelineMax()
 
+
 //             __  ______  ___  ______  ____    ___  ___  ___    ___ __  __ __ __  __  ____
 //            (( \ | || | // \\ | || | ||       ||\\//|| // \\  //   ||  || || ||\ || ||
 //             \\    ||   ||=||   ||   ||==     || \/ || ||=|| ((    ||==|| || ||\\|| ||==
@@ -18,7 +19,8 @@ let masterTimeline = new TimelineMax()
 // create scenes array as machine
 let scenes = [
   firstTransition(),
-  secondTransition()
+  secondTransition(),
+  thirdTransition(),
 ]
 
 // init function
@@ -59,44 +61,58 @@ function nextScene() {
 
 function firstTransition () {
   return {
-    id: 0,
-    name: 'landingPage',
-    description: 'show heading, subheading, introlistitems and skipToFav one by one',
+    id: 1,
+    name: '',
+    description: '',
     start() {
-      // initialize Timeline
-      var introTimeline = new TimelineMax()
-      // introTimeline.timeScale(4)
-      // set animating as true
-      introTimeline.add(toggleAnimationState)
 
-      // declare all the elements needed
-      let mainHeading = getById('mainHeading')
-      let subHeading = getById('subHeading')
-      let skipToFav = getByClassName('skipToFav')[0]
+      function timeline() {
+        // initialize Timeline
+        var timeline = new TimelineMax()
 
-      // introListItems gets a little special treatment since it has childnodes that need individual animations
-      let introListItems = getByClassName('introList')[0].childNodes
-      let introListItemArray = []
-      for(var i = introListItems.length; i--; introListItemArray.unshift(introListItems[i]));
-      introListItems = introListItemArray.filter( item => item.className === 'introListItem')
-      // start animations
-      introTimeline.add(TweenLite.from(mainHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut}))
-      introTimeline.add(TweenLite.from(subHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut}).delay(0.3))
-      introListItems.forEach( item => {
-        introTimeline.add([
-          TweenLite.from(item.children[0], 1, {opacity:0, x:-100}),
-          TweenLite.from(item.children[1], 1, {opacity:0}),
-          TweenLite.from(item.children[2], 1, {opacity:0, x:100})
-        ]).delay(1)
-      })
-      introTimeline.add( TweenLite.from(skipToFav, 1.5, {opacity:0, y:100,ease:Power3.easeInOut}))
+        // set animating as true
+        timeline.add(toggleAnimationState)
 
-      // toggle animating as false
-      introTimeline.add(toggleAnimationState)
+        // declare all the elements needed
+        let mainHeading = getById('mainHeading')
+        let subHeading = getById('subHeading')
+        let skipToFav = getByClassName('skipToFav')[0]
+
+        // introListItems gets a little special treatment since it has childnodes that need individual animations
+        let introListItems = getByClassName('introList')[0].childNodes
+        let introListItemArray = []
+        for(var i = introListItems.length; i--; introListItemArray.unshift(introListItems[i]));
+        introListItems = introListItemArray.filter( item => item.className === 'introListItem')
+
+        // start animations
+        timeline.from(mainHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut})
+        timeline.from(subHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut}).delay(0.3)
+        introListItems.forEach( item => {
+          timeline.add([
+            TweenLite.from(item.children[0], 1, {opacity:0, x:-100}),
+            TweenLite.from(item.children[1], 1, {opacity:0}),
+            TweenLite.from(item.children[2], 1, {opacity:0, x:100})
+          ]).delay(1)
+        })
+        timeline.from(skipToFav, 1.5, {opacity:0, y:100,ease:Power3.easeInOut})
+
+        // toggle animating as false
+        timeline.add(toggleAnimationState)
+
+        // return the completed timeline
+        return timeline
+      }
+
+      // add a label to the masterTimeline
+      masterTimeline.add("intro")
+
+      // Run the third timeline at masterTimeline
+      masterTimeline.add( timeline() )
 
       // start next scene
       end = true
-      introTimeline.add(nextScene)
+      masterTimeline.add(nextScene)
+
     },
   }
 }
@@ -109,28 +125,96 @@ function firstTransition () {
 
 function secondTransition () {
   return {
-    id: 1,
+    id: 2,
     name: 'animationCanvas',
     description: 'show animation canvas',
     start() {
-      // initialize Timeline
-      var secondTimeline = new TimelineMax()
 
-      // set animating as true
-      secondTimeline.add(toggleAnimationState)
+      function timeline() {
+        // initialize Timeline
+        var timeline = new TimelineMax()
 
-      // declare all the elements needed
-      let animationContainer = getById("animationContainer")
+        // set animating as true
+        timeline.add(toggleAnimationState)
 
-      // start animations
-      secondTimeline.add(TweenLite.to(animationContainer, 1.5, {top: '0vh',ease:Power2.easeOut}))
+        // declare all the elements needed
+        let animationContainer = getById("animationContainer")
+        let landingPage = getById("landingPage")
 
-      // toggle animating as false
-      secondTimeline.add(toggleAnimationState)
+
+        // start animations
+        timeline.add([
+          TweenLite.to(landingPage, 1, {opacity: 0, y: -100 ,ease:Power3.easeOut}),
+          TweenLite.to(animationContainer, 1.5, {top: '0vh',ease:Power2.easeOut}),
+        ])
+
+        // toggle animating as false
+        timeline.add(toggleAnimationState)
+
+        return timeline
+      }
+
+      // add a label to the masterTimeline
+      masterTimeline.add("show canvas")
+
+      // Run the third timeline at masterTimeline
+      masterTimeline.add( timeline() )
 
       // start next scene
       end = true
-      secondTimeline.add(nextScene)
+      masterTimeline.add(nextScene)
+
+    },
+  }
+}
+
+// ------------------------------------------------
+// ================================================
+//          SCENE THREE - show text
+// ================================================
+// ------------------------------------------------
+
+// NOTE : This has to be where the master timeline format begins
+
+function thirdTransition () {
+  return {
+    id: 1,
+    name: '',
+    description: '',
+    start() {
+
+      function thirdTimeline() {
+        // initialize Timeline
+        var timeline = new TimelineMax()
+
+        // set animating as true
+        timeline.add(toggleAnimationState)
+
+        // declare all the elements needed
+        let anxietyText = getById("anxietyText")
+
+
+        // start animations
+
+
+        // toggle animating as false
+        timeline.add(toggleAnimationState)
+
+
+
+        return thirdTimeline
+      }
+
+      // add a label to the masterTimeline
+      masterTimeline.add("show anxiety")
+
+      // Run the third timeline at masterTimeline
+      masterTimeline.add( thirdTimeline() )
+
+      // start next scene
+      end = true
+      masterTimeline.add(nextScene)
+
     },
   }
 }
@@ -264,6 +348,11 @@ function scrollMeSilly() {
   }
 }
 
+// ------------------------------------------------
+// ================================================
+//          SCENE TWO - show anim canvas
+// ================================================
+// ------------------------------------------------
 
 function x () {
   return {
@@ -271,24 +360,39 @@ function x () {
     name: '',
     description: '',
     start() {
-      // initialize Timeline
-      var introTimeline = new TimelineMax()
 
-      // set animating as true
-      introTimeline.add(toggleAnimationState)
+      function timeline() {
+        // initialize Timeline
+        var timeline = new TimelineMax()
 
-      // declare all the elements needed
+        // set animating as true
+        timeline.add(toggleAnimationState)
+
+        // declare all the elements needed
+        let anxietyText = getById("anxietyText")
 
 
-      // start animations
+        // start animations
 
 
-      // toggle animating as false
-      introTimeline.add(toggleAnimationState)
+        // toggle animating as false
+        timeline.add(toggleAnimationState)
+
+
+
+        return timeline
+      }
+
+      // add a label to the masterTimeline
+      masterTimeline.add("intro")
+
+      // Run the third timeline at masterTimeline
+      masterTimeline.add( timeline() )
 
       // start next scene
       end = true
-      introTimeline.add(nextScene)
+      masterTimeline.add(nextScene)
+
     },
   }
 }

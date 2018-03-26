@@ -276,3 +276,18 @@ label {
   height: 100vh;
   background-color:white;
 }
+
+
+#thirdTransition {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height:100%;
+  width: 100%;
+}
+
+#anxietyText {
+  color: transparent;
+  text-shadow: 0 0 5px rgba(2,2,2,0.5);
+  font-size: 18vmin;
+}
