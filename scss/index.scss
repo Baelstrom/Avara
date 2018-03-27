@@ -26,6 +26,7 @@ p {
 }
 
 #sideBar {
+  z-index:6;
   text-align: center;
   list-style: none;
   margin: 0px;
@@ -67,26 +68,30 @@ p {
   height:100%;
 
 }
-
 #menuIcon {
   position: absolute;
   width: 3vmin;
   height:3vmin;
-  z-index:3;
-
+  z-index:12;
 }
 #icon-close-black {
+  z-index:10;
+  opacity: 0;
   img{
+    z-index:10;
     width: 4vmin;
     height:4vmin;
   }
 }
-#icon-close-white {
+#icon-menu-white {
+  z-index:10;
   img{
+    z-index:10;
     width: 4vmin;
     height:4vmin;
   }
 }
+
 
 #scrollPrompt {
   position: absolute;
@@ -260,4 +265,38 @@ label {
       color: white;
     }
   }
+}
+
+
+#animationContainer {
+  z-index: 5;
+  position:absolute;
+  top:-100vh;
+  width: 100vw;
+  height: 100vh;
+  background-color:white;
+}
+
+
+#thirdTransition {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height:100%;
+  width: 100%;
+}
+
+#anxietyText {
+  opacity:0;
+  transform:translateX(2);
+  padding-left: 0vh;
+  padding-bottom: 0vh;
+  transform: translateY(100);
+  color: transparent;
+  text-shadow: 0 0 30px rgba(2,2,2,0.5);
+  font-size: 18vmin;
+}
+
+.anxietyText-shadowreveal {
+  text-shadow: 0 0 0px rgba(1,1,1,1);
 }
