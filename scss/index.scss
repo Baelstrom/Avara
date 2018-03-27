@@ -287,7 +287,16 @@ label {
 }
 
 #anxietyText {
+  opacity:0;
+  transform:translateX(2);
+  padding-left: 0vh;
+  padding-bottom: 0vh;
+  transform: translateY(100);
   color: transparent;
-  text-shadow: 0 0 5px rgba(2,2,2,0.5);
+  text-shadow: 0 0 30px rgba(2,2,2,0.5);
   font-size: 18vmin;
+}
+
+.anxietyText-shadowreveal {
+  text-shadow: 0 0 0px rgba(1,1,1,1);
 }

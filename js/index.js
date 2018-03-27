@@ -1,4 +1,4 @@
-//            ___  __      ___   ____   ___  __       __ __  ___  ____   __
+//             ___  __      ___   ____   ___  __       __ __  ___  ____   __
 //            // \\ ||     // \\  || )) // \\ ||       || || // \\ || \\ (( \
 //           (( ___ ||    ((   )) ||=)  ||=|| ||       \\ // ||=|| ||_//  \\
 //            \\_|| ||__|  \\_//  ||_)) || || ||__|     \V/  || || || \\ \_))
@@ -7,7 +7,7 @@
 let menuToggle = true
 let animating = false
 let currentScene = 0
-let end = false
+let paused = false
 let masterTimeline = new TimelineMax()
 
 
@@ -25,25 +25,37 @@ let scenes = [
 
 // init function
 function init() {
-  nextScene()
+
+  // looping through scene objects to add it all to the masterTimeline
+  scenes.forEach( scene => {
+    // example of loosely checking for equality.
+    // because I know that the scene.id var is not going to return strings at any point in time anyway.
+    masterTimeline.add( scene.generateScene() )
+    if ( scene.id == 1 ) {
+      masterTimeline.addPause(8.5)
+    }
+  })
+  console.log('plog -- master', masterTimeline)
+  // skipping to timeline I'm working on
+  masterTimeline.seek(9.5)
 }
 
 // get the engine started
 init()
 
 // this is what turns the wheels in motion
-function nextScene() {
-  if (end) {
-    console.log('plog -- animation is complete')
-    return
-  }
-
-  let newScene = scenes[currentScene]
-  currentScene++
-  newScene.start()
-  console.log('plog -- now playing scene - ', newScene.name)
-
-}
+// function nextScene() {
+//   if (end) {
+//     console.log('plog -- animation is complete')
+//     return
+//   }
+//
+//   let newScene = scenes[currentScene]
+//   currentScene++
+//   newScene.start()
+//   console.log('plog -- now playing scene - ', newScene.name)
+//
+// }
 
 
 //             __    ___  ____ __  __  ____    ____    ____  ____ __ __  __ __ ______ __   ___   __  __  __
@@ -58,65 +70,50 @@ function nextScene() {
 //          SCENE ONE -- landing page
 // ================================================
 // ------------------------------------------------
-
 function firstTransition () {
   return {
-    id: 1,
+    id: 0,
     name: '',
     description: '',
-    start() {
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
 
-      function timeline() {
-        // initialize Timeline
-        var timeline = new TimelineMax()
+      // set animating as true
+      timeline.add(toggleAnimationState)
 
-        // set animating as true
-        timeline.add(toggleAnimationState)
-
-        // declare all the elements needed
-        let mainHeading = getById('mainHeading')
-        let subHeading = getById('subHeading')
-        let skipToFav = getByClassName('skipToFav')[0]
+      // declare all the elements needed
+      let mainHeading = getById('mainHeading')
+      let subHeading = getById('subHeading')
+      let skipToFav = getByClassName('skipToFav')[0]
 
         // introListItems gets a little special treatment since it has childnodes that need individual animations
-        let introListItems = getByClassName('introList')[0].childNodes
-        let introListItemArray = []
-        for(var i = introListItems.length; i--; introListItemArray.unshift(introListItems[i]));
-        introListItems = introListItemArray.filter( item => item.className === 'introListItem')
+      let introListItems = getByClassName('introList')[0].childNodes
+      let introListItemArray = []
+      for(var i = introListItems.length; i--; introListItemArray.unshift(introListItems[i]));
+      introListItems = introListItemArray.filter( item => item.className === 'introListItem')
 
-        // start animations
-        timeline.from(mainHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut})
-        timeline.from(subHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut}).delay(0.3)
-        introListItems.forEach( item => {
-          timeline.add([
-            TweenLite.from(item.children[0], 1, {opacity:0, x:-100}),
-            TweenLite.from(item.children[1], 1, {opacity:0}),
-            TweenLite.from(item.children[2], 1, {opacity:0, x:100})
-          ]).delay(1)
-        })
-        timeline.from(skipToFav, 1.5, {opacity:0, y:100,ease:Power3.easeInOut})
 
-        // toggle animating as false
-        timeline.add(toggleAnimationState)
+      // start animations
+      timeline.from(mainHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut})
+      timeline.from(subHeading, 1.5, {opacity:0, y:100,ease:Power3.easeInOut}).delay(0.3)
+      introListItems.forEach( item => {
+        timeline.add([
+          TweenLite.from(item.children[0], 1, {opacity:0, x:-100}),
+          TweenLite.from(item.children[1], 1, {opacity:0}),
+          TweenLite.from(item.children[2], 1, {opacity:0, x:100})
+        ]).delay(1)
+      })
+      timeline.from(skipToFav, 1.5, {opacity:0, y:100,ease:Power3.easeInOut})
 
-        // return the completed timeline
-        return timeline
-      }
+      // toggle animating as false
+      timeline.call(toggleAnimationState)
 
-      // add a label to the masterTimeline
-      masterTimeline.add("intro")
-
-      // Run the third timeline at masterTimeline
-      masterTimeline.add( timeline() )
-
-      // start next scene
-      end = true
-      masterTimeline.add(nextScene)
-
+      // return the completed timeline
+      return timeline
     },
   }
 }
-
 // ------------------------------------------------
 // ================================================
 //          SCENE TWO - show anim canvas
@@ -125,45 +122,30 @@ function firstTransition () {
 
 function secondTransition () {
   return {
-    id: 2,
-    name: 'animationCanvas',
-    description: 'show animation canvas',
-    start() {
+    id: 1,
+    name: '',
+    description: '',
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
 
-      function timeline() {
-        // initialize Timeline
-        var timeline = new TimelineMax()
+      // set animating as true
+      timeline.add(toggleAnimationState)
 
-        // set animating as true
-        timeline.add(toggleAnimationState)
+      // declare all the elements needed
+      let animationContainer = getById("animationContainer")
+      let landingPage = getById("landingPage")
 
-        // declare all the elements needed
-        let animationContainer = getById("animationContainer")
-        let landingPage = getById("landingPage")
+      // start animations
+      timeline.add([
+         TweenLite.to(landingPage, 1, {opacity: 0, y: -100 ,ease:Power3.easeOut}),
+         TweenLite.to(animationContainer, 1.5, {top: '0vh',ease:Power2.easeOut}),
+       ])
 
+      // toggle animating as false
+      timeline.add(toggleAnimationState)
 
-        // start animations
-        timeline.add([
-          TweenLite.to(landingPage, 1, {opacity: 0, y: -100 ,ease:Power3.easeOut}),
-          TweenLite.to(animationContainer, 1.5, {top: '0vh',ease:Power2.easeOut}),
-        ])
-
-        // toggle animating as false
-        timeline.add(toggleAnimationState)
-
-        return timeline
-      }
-
-      // add a label to the masterTimeline
-      masterTimeline.add("show canvas")
-
-      // Run the third timeline at masterTimeline
-      masterTimeline.add( timeline() )
-
-      // start next scene
-      end = true
-      masterTimeline.add(nextScene)
-
+      return timeline
     },
   }
 }
@@ -174,47 +156,41 @@ function secondTransition () {
 // ================================================
 // ------------------------------------------------
 
-// NOTE : This has to be where the master timeline format begins
-
 function thirdTransition () {
   return {
-    id: 1,
+    id: 2,
     name: '',
     description: '',
-    start() {
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
 
-      function thirdTimeline() {
-        // initialize Timeline
-        var timeline = new TimelineMax()
+      // set animating as true
+      timeline.add(toggleAnimationState)
 
-        // set animating as true
-        timeline.add(toggleAnimationState)
+      // declare all the elements needed
+      let anxietyText = getById("anxietyText")
+      console.log('plog -- ', anxietyText)
+      // start animations
+      // timeline.to( anxietyText, 2,
+      //   { x:0, ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false})},
+      //   { opacity:1, ease:Power3.easeOut },
+      //   { y:0, ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false})}
+      // )
+      timeline.add([
+        TweenLite.to(anxietyText, 4.5, {opacity:1, textShadow: '0 0 0px rgba(100,100,100,1)'}),
+        // TweenLite.to(anxietyText, 2, { paddingBottom:'0vh', ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false})}),
+        TweenLite.to(anxietyText, 5, { ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false}), y: '30vh', repeat:3, yoyo:true}),
+        // TweenLite.to(anxietyText, 2, { paddingLeft:'0vh', ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false})})
+      ])
+      // timeline.add
 
-        // declare all the elements needed
-        let anxietyText = getById("anxietyText")
+      // toggle animating as false
+      timeline.call(toggleAnimationState)
 
-
-        // start animations
-
-
-        // toggle animating as false
-        timeline.add(toggleAnimationState)
-
-
-
-        return thirdTimeline
-      }
-
-      // add a label to the masterTimeline
-      masterTimeline.add("show anxiety")
-
-      // Run the third timeline at masterTimeline
-      masterTimeline.add( thirdTimeline() )
-
-      // start next scene
-      end = true
-      masterTimeline.add(nextScene)
-
+      // return the completed timeline
+      console.log('plog -- timeline',timeline)
+      return timeline
     },
   }
 }
@@ -270,7 +246,7 @@ function toggleMenuIcon () {
 function staggerMenuItems () {
   // let menuItems = getByClassName('sideMenuList').childNodes
   let menuItems = getByClassName('sideMenuList')[0].childNodes
-  if(menuToggle) {
+  if(menuToggle) {scenes[1].start()
     TweenLite.to(menuItems, 0.2, {opacity: 0})
   } else {
     TweenMax.staggerFrom(menuItems, 0.3, {opacity:0,x:-300},0.05)
@@ -327,9 +303,8 @@ function detectMouseWheelDirection( e )
 function handleMouseWheelDirection( direction )
 {
     console.log( direction ); // see the direction in the console
-    if ( direction == 'down' && !animating && currentScene === 1) {
-      end = false;
-      scenes[1].start()
+    if ( direction == 'down' && !animating ) {
+      masterTimeline.play()
     } else if ( direction == 'up' && !animating) {
 
     } else {
@@ -350,49 +325,40 @@ function scrollMeSilly() {
 
 // ------------------------------------------------
 // ================================================
-//          SCENE TWO - show anim canvas
+//          SCENE x - show anim canvas
 // ================================================
 // ------------------------------------------------
 
+
+// the init function is now a for loop that iterates through the scene array and calls generateScene and adds it to the masterTimeline
+// there needs to be a way to pause and play the scene though.
 function x () {
   return {
     id: 1,
     name: '',
     description: '',
-    start() {
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
 
-      function timeline() {
-        // initialize Timeline
-        var timeline = new TimelineMax()
+      // set animating as true
+      timeline.add(toggleAnimationState)
 
-        // set animating as true
-        timeline.add(toggleAnimationState)
-
-        // declare all the elements needed
-        let anxietyText = getById("anxietyText")
+      // declare all the elements needed
 
 
-        // start animations
+      // start animations
 
 
-        // toggle animating as false
-        timeline.add(toggleAnimationState)
+      // toggle animating as false
+      timeline.call(toggleAnimationState)
 
+      // pause after the intro list items are shown
+      console.log('plog -- ',timeline.duration())
+      timeline.addPause( timeline.duration(),console.log('plog -- now paused'))
 
-
-        return timeline
-      }
-
-      // add a label to the masterTimeline
-      masterTimeline.add("intro")
-
-      // Run the third timeline at masterTimeline
-      masterTimeline.add( timeline() )
-
-      // start next scene
-      end = true
-      masterTimeline.add(nextScene)
-
+      // return the completed timeline
+      return timeline
     },
   }
 }
