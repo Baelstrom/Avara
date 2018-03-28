@@ -226,15 +226,32 @@ function fourthTransition () {
       let T = getById("T-anxiety")
       let Y = getById("Y-anxiety")
 
-
-      // animation functions
-      function displacements ( anxietyText ) {
-
-      }
+      // with sound
+      // init sound array
+      var sound = new Howl({
+        src: ['./audio/creak.wav']
+      })
       // start animations
       // make text shrink a bit
-      timeline.to(anxietyText, 0.6, {fontSize:'16vmin',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false}),delay:0.2})
+      // timeline.to(anxietyText, 0.6, {fontSize:'16vmin',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false}),delay:0.2})
+      timeline.add([
+        TweenLite.to(anxietyText, 2, {fontSize:'16vmin',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 1, points: 50, taper: "out", randomize:  true, clamp: false}),delay:0.2}),
+        playAudio
+      ])
       timeline.to(anxietyText, 0.1, {fontSize:'18vmin',ease:Power3.easeIn,delay:0.4})
+
+     function playAudio () {
+       sound.play()
+     }
+     function initAudio ( audioList ) {
+       audioList.forEach()
+       return
+     }
+     function playAudio ( audioArray, index ) {
+       // soundArray[index].play()
+     }
+
+
 
       timeline.add([
         // displacements
@@ -274,6 +291,8 @@ function fourthTransition () {
 
 
 scrollMeSilly()
+
+
 
 // Used to update animaion state
 function toggleAnimationState() {
