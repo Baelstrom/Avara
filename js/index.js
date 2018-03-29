@@ -228,28 +228,28 @@ function fourthTransition () {
 
       // with sound
       // init sound array
-      var sound = new Howl({
-        src: ['./audio/creak.wav']
-      })
+      // var sound = new Howl({
+      //   src: ['./audio/creak.wav'],
+      //   html5: true,
+      // })
       // start animations
       // make text shrink a bit
       // timeline.to(anxietyText, 0.6, {fontSize:'16vmin',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false}),delay:0.2})
+      let audioList = ['creak']
+      let audio = initAudio(audioList)
+
+       // console.log('plog -- audio',audio)
+
       timeline.add([
         TweenLite.to(anxietyText, 2, {fontSize:'16vmin',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 1, points: 50, taper: "out", randomize:  true, clamp: false}),delay:0.2}),
-        playAudio
+        playAudio(audio, 'creak')
       ])
+      console.log('plog -- dur',timeline.duration())
       timeline.to(anxietyText, 0.1, {fontSize:'18vmin',ease:Power3.easeIn,delay:0.4})
 
-     function playAudio () {
-       sound.play()
-     }
-     function initAudio ( audioList ) {
-       audioList.forEach()
-       return
-     }
-     function playAudio ( audioArray, index ) {
-       // soundArray[index].play()
-     }
+
+
+
 
 
 
@@ -447,3 +447,22 @@ function x () {
     },
   }
 }
+
+//  helper functions for audio
+// this one takes an audio list and inits them into howler objects
+function initAudio(audioList) {
+   return audioList.reduce((acc, cur) => {
+     acc[cur] = new Howl({
+       src: [`./audio/${cur}.wav`],
+       html5: true,
+     })
+     return acc
+   }, {})
+ }
+
+ function playAudio ( audio, clip ) {
+   // this took a while to figure out.
+   // for some reason timeline can only hold functions
+   // that also return functions or are without the "()"
+   return () => {audio[clip].play()}
+ }
