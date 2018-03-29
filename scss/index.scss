@@ -1,4 +1,5 @@
 @import 'variables';
+$radius : 5;
 
 body {
   height: 100%;
@@ -287,6 +288,8 @@ label {
 }
 
 #anxietyText {
+  display:flex;
+  flex-direction: row;
   opacity:0;
   transform:translateX(2);
   padding-left: 0vh;
@@ -296,7 +299,50 @@ label {
   text-shadow: 0 0 30px rgba(2,2,2,0.5);
   font-size: 18vmin;
 }
-
+.circle {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-color: #333;
+}
 .anxietyText-shadowreveal {
   text-shadow: 0 0 0px rgba(1,1,1,1);
+}
+@mixin anxiety-letter{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.circle{
+  position:absolute;
+  width: 10vh;
+  height: 10vh;
+}
+.anxiety-letter__circle {
+  opacity:0;
+}
+
+#A-anxiety{
+  @include anxiety-letter;
+}
+#N-anxiety{
+  @include anxiety-letter;
+}
+#X-anxiety{
+  @include anxiety-letter;
+}
+#I-anxiety{
+  @include anxiety-letter;
+}
+#E-anxiety{
+  @include anxiety-letter;
+}
+#T-anxiety{
+  @include anxiety-letter;
+}
+#Y-anxiety{
+  @include anxiety-letter;
 }

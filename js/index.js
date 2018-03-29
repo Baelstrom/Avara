@@ -21,6 +21,7 @@ let scenes = [
   firstTransition(),
   secondTransition(),
   thirdTransition(),
+  fourthTransition(),
 ]
 
 // init function
@@ -189,12 +190,98 @@ function thirdTransition () {
       timeline.call(toggleAnimationState)
 
       // return the completed timeline
-      console.log('plog -- timeline',timeline)
       return timeline
     },
   }
 }
 
+// ------------------------------------------------
+// ================================================
+//          SCENE 4 - explode text into circles
+// ================================================
+// ------------------------------------------------
+
+
+// the init function is now a for loop that iterates through the scene array and calls generateScene and adds it to the masterTimeline
+// there needs to be a way to pause and play the scene though.
+function fourthTransition () {
+  return {
+    id: 3,
+    name: '',
+    description: '',
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
+
+      // set animating as true
+      timeline.add(toggleAnimationState)
+
+      // declare all the elements needed
+      let anxietyText = getById("anxietyText")
+      let A = getById("A-anxiety")
+      let N = getById("N-anxiety")
+      let X = getById("X-anxiety")
+      let I = getById("I-anxiety")
+      let E = getById("E-anxiety")
+      let T = getById("T-anxiety")
+      let Y = getById("Y-anxiety")
+
+      // with sound
+      // init sound array
+      // var sound = new Howl({
+      //   src: ['./audio/creak.wav'],
+      //   html5: true,
+      // })
+      // start animations
+      // make text shrink a bit
+      // timeline.to(anxietyText, 0.6, {fontSize:'16vmin',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false}),delay:0.2})
+      let audioList = ['creak']
+      let audio = initAudio(audioList)
+
+       // console.log('plog -- audio',audio)
+
+      timeline.add([
+        TweenLite.to(anxietyText, 2, {fontSize:'16vmin',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 1, points: 50, taper: "out", randomize:  true, clamp: false}),delay:0.2}),
+        playAudio(audio, 'creak')
+      ])
+      console.log('plog -- dur',timeline.duration())
+      timeline.to(anxietyText, 0.1, {fontSize:'18vmin',ease:Power3.easeIn,delay:0.4})
+
+
+
+
+
+
+
+      timeline.add([
+        // displacements
+        TweenLite.to(A, 2, {left:'-55vh',top:'-40vh',ease:Power3.easeOut}),
+        TweenLite.to(N, 2, {left:'-30vh',top:'-20vh',ease:Power3.easeOut}),
+        TweenLite.to(X, 2, {left:'-20vh',top:'30vh',ease:Power3.easeOut}),
+        TweenLite.to(I, 2, {left:'0vh',top:'20vh',ease:Power3.easeOut}),
+        TweenLite.to(E, 2, {left:'23vh',top:'-25vh',ease:Power3.easeOut}),
+        TweenLite.to(T, 2, {left:'35vh',top:'-35vh',ease:Power3.easeOut}),
+        TweenLite.to(Y, 2, {left:'40vh',top:'15vh',ease:Power3.easeOut}),
+        // rotations
+        TweenLite.to(A.childNodes[1], 2, {fontSize:'9vmin',rotation:-20,ease:Power3.easeOut}),
+        TweenLite.to(N.childNodes[1], 2, {fontSize:'9vmin',rotation:-30,ease:Power3.easeOut}),
+        TweenLite.to(X.childNodes[1], 2, {rotation:20,ease:Power3.easeOut}),
+        TweenLite.to(I.childNodes[1], 2, {rotation:50,ease:Power3.easeOut}),
+        TweenLite.to(E.childNodes[1], 2, {rotation:-60,ease:Power3.easeOut}),
+        TweenLite.to(T.childNodes[1], 2, {rotation:-80,ease:Power3.easeOut}),
+        TweenLite.to(Y.childNodes[1], 2, {rotation:40,ease:Power3.easeOut}),
+
+        // morph to circle
+      ])
+
+      // toggle animating as false
+      timeline.call(toggleAnimationState)
+
+      // return the completed timeline
+      return timeline
+    },
+  }
+}
 
 
 //            __  __  ____ __    ____   ____ ____      ____ __ __ __  __   ___ ______ __   ___   __  __  __
@@ -204,6 +291,8 @@ function thirdTransition () {
 
 
 scrollMeSilly()
+
+
 
 // Used to update animaion state
 function toggleAnimationState() {
@@ -353,12 +442,27 @@ function x () {
       // toggle animating as false
       timeline.call(toggleAnimationState)
 
-      // pause after the intro list items are shown
-      console.log('plog -- ',timeline.duration())
-      timeline.addPause( timeline.duration(),console.log('plog -- now paused'))
-
       // return the completed timeline
       return timeline
     },
   }
 }
+
+//  helper functions for audio
+// this one takes an audio list and inits them into howler objects
+function initAudio(audioList) {
+   return audioList.reduce((acc, cur) => {
+     acc[cur] = new Howl({
+       src: [`./audio/${cur}.wav`],
+       html5: true,
+     })
+     return acc
+   }, {})
+ }
+
+ function playAudio ( audio, clip ) {
+   // this took a while to figure out.
+   // for some reason timeline can only hold functions
+   // that also return functions or are without the "()"
+   return () => {audio[clip].play()}
+ }
