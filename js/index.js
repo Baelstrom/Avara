@@ -518,8 +518,6 @@ function subtitleUpdate ( text , delay ) {
   } else {
     return TweenLite.to(subtitles, 1, {opacity:1,text:{value:`${text}`, padSpace:true, ease:Linear.none}})
   }
-
-
 }
 
 function speechDelay ( seconds ) {
