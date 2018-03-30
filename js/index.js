@@ -33,12 +33,12 @@ function init() {
     // because I know that the scene.id var is not going to return strings at any point in time anyway.
     masterTimeline.add( scene.generateScene() )
     if ( scene.id == 1 ) {
-      masterTimeline.addPause(8.5)
+      masterTimeline.addPause(8.4)
     }
   })
   console.log('plog -- master', masterTimeline)
   // skipping to timeline I'm working on
-  masterTimeline.seek(9.5)
+  masterTimeline.seek(8)
 }
 
 // get the engine started
@@ -108,7 +108,8 @@ function firstTransition () {
       timeline.from(skipToFav, 1.5, {opacity:0, y:100,ease:Power3.easeInOut})
 
       // toggle animating as false
-      timeline.call(toggleAnimationState)
+      // i dont know why this oen works the way it does.
+      timeline.add(toggleAnimationState,()=>{})
 
       // return the completed timeline
       return timeline
@@ -137,8 +138,17 @@ function secondTransition () {
       let animationContainer = getById("animationContainer")
       let landingPage = getById("landingPage")
 
+      let audioList = ['music1']
+      let audio = {
+        music1: new Howl({
+          src: [`./audio/music1.mp3`],
+          html5: true,
+        })
+      }
+
       // start animations
       timeline.add([
+         playAudio(audio, 'music1'),
          TweenLite.to(landingPage, 1, {opacity: 0, y: -100 ,ease:Power3.easeOut}),
          TweenLite.to(animationContainer, 1.5, {top: '0vh',ease:Power2.easeOut}),
        ])
@@ -171,20 +181,31 @@ function thirdTransition () {
 
       // declare all the elements needed
       let anxietyText = getById("anxietyText")
-      console.log('plog -- ', anxietyText)
+
+      // init audio
+      let audioList = ['voice1']
+      let audio = initAudio(audioList)
+
       // start animations
-      // timeline.to( anxietyText, 2,
-      //   { x:0, ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false})},
-      //   { opacity:1, ease:Power3.easeOut },
-      //   { y:0, ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false})}
-      // )
       timeline.add([
         TweenLite.to(anxietyText, 4.5, {opacity:1, textShadow: '0 0 0px rgba(100,100,100,1)'}),
-        // TweenLite.to(anxietyText, 2, { paddingBottom:'0vh', ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false})}),
         TweenLite.to(anxietyText, 5, { ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false}), y: '30vh', repeat:3, yoyo:true}),
-        // TweenLite.to(anxietyText, 2, { paddingLeft:'0vh', ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false})})
       ])
-      // timeline.add
+      timeline.add([
+        playAudio(audio, 'voice1', .5),
+        TweenMax.fromTo(anxietyText, 2,
+      		{
+            ease:Power3.easeInOut
+        	},
+      		{
+            y:1,
+            ease:Power3.easeInOut,
+      	    // repeat: 1,
+          	// yoyo: true
+      		},),
+      ])
+      timeline.add( speechDelay(0.5))
+
 
       // toggle animating as false
       timeline.call(toggleAnimationState)
@@ -197,7 +218,7 @@ function thirdTransition () {
 
 // ------------------------------------------------
 // ================================================
-//          SCENE 4 - explode text into circles
+//          SCENE 4 - creak / explode text into circles
 // ================================================
 // ------------------------------------------------
 
@@ -225,24 +246,20 @@ function fourthTransition () {
       let E = getById("E-anxiety")
       let T = getById("T-anxiety")
       let Y = getById("Y-anxiety")
+      let subtitles = getById("subtitles")
+      console.log('plog -- subtitles',subtitles)
 
-      // with sound
-      // init sound array
-      // var sound = new Howl({
-      //   src: ['./audio/creak.wav'],
-      //   html5: true,
-      // })
-      // start animations
-      // make text shrink a bit
-      // timeline.to(anxietyText, 0.6, {fontSize:'16vmin',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false}),delay:0.2})
-      let audioList = ['creak']
+      // init audio
+      let audioList = ['creak','voice2','voice3']
       let audio = initAudio(audioList)
 
-       // console.log('plog -- audio',audio)
-
+      // begin animation
       timeline.add([
         TweenLite.to(anxietyText, 2, {fontSize:'16vmin',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 1, points: 50, taper: "out", randomize:  true, clamp: false}),delay:0.2}),
-        playAudio(audio, 'creak')
+        playAudio(audio, 'creak'),
+        playAudio(audio, 'voice2',1),
+        subtitleUpdate(`Its that tightness in your chest.`, 1),
+        speechDelay(3.5)
       ])
       console.log('plog -- dur',timeline.duration())
       timeline.to(anxietyText, 0.1, {fontSize:'18vmin',ease:Power3.easeIn,delay:0.4})
@@ -252,16 +269,21 @@ function fourthTransition () {
 
 
 
-
       timeline.add([
+        // audio + subtitles
+        // playAudio(audio, 'voice3'),
+        subtitleUpdate(`The worried mind, that never rests`, 1),
+        playAudio(audio, 'voice3', 1),
+
         // displacements
-        TweenLite.to(A, 2, {left:'-55vh',top:'-40vh',ease:Power3.easeOut}),
-        TweenLite.to(N, 2, {left:'-30vh',top:'-20vh',ease:Power3.easeOut}),
-        TweenLite.to(X, 2, {left:'-20vh',top:'30vh',ease:Power3.easeOut}),
-        TweenLite.to(I, 2, {left:'0vh',top:'20vh',ease:Power3.easeOut}),
-        TweenLite.to(E, 2, {left:'23vh',top:'-25vh',ease:Power3.easeOut}),
-        TweenLite.to(T, 2, {left:'35vh',top:'-35vh',ease:Power3.easeOut}),
-        TweenLite.to(Y, 2, {left:'40vh',top:'15vh',ease:Power3.easeOut}),
+        TweenLite.to(A, 2, {left:'-55vh',top:'-40vh',ease:Power4.easeOut}),
+        TweenLite.to(N, 2, {left:'-30vh',top:'-20vh',ease:Power4.easeOut}),
+        TweenLite.to(X, 2, {left:'-20vh',top:'30vh',ease:Power4.easeOut}),
+        TweenLite.to(I, 2, {left:'0vh',top:'20vh',ease:Power4.easeOut}),
+        TweenLite.to(E, 2, {left:'23vh',top:'-25vh',ease:Power4.easeOut}),
+        TweenLite.to(T, 2, {left:'35vh',top:'-35vh',ease:Power4.easeOut}),
+        TweenLite.to(Y, 2, {left:'40vh',top:'15vh',ease:Power4.easeOut}),
+
         // rotations
         TweenLite.to(A.childNodes[1], 2, {fontSize:'9vmin',rotation:-20,ease:Power3.easeOut}),
         TweenLite.to(N.childNodes[1], 2, {fontSize:'9vmin',rotation:-30,ease:Power3.easeOut}),
@@ -272,6 +294,15 @@ function fourthTransition () {
         TweenLite.to(Y.childNodes[1], 2, {rotation:40,ease:Power3.easeOut}),
 
         // morph to circle
+      ])
+      timeline.add([
+        TweenMax.fromTo(A, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true}),
+        TweenMax.fromTo(N, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true,delay:.2}),
+        TweenMax.fromTo(X, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true,delay:.5}),
+        TweenMax.fromTo(I, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true,delay:.3}),
+        TweenMax.fromTo(E, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true,delay:.2}),
+        TweenMax.fromTo(T, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true,delay:.1}),
+        TweenMax.fromTo(Y, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true,delay:.8}),
       ])
 
       // toggle animating as false
@@ -335,7 +366,7 @@ function toggleMenuIcon () {
 function staggerMenuItems () {
   // let menuItems = getByClassName('sideMenuList').childNodes
   let menuItems = getByClassName('sideMenuList')[0].childNodes
-  if(menuToggle) {scenes[1].start()
+  if(menuToggle) {
     TweenLite.to(menuItems, 0.2, {opacity: 0})
   } else {
     TweenMax.staggerFrom(menuItems, 0.3, {opacity:0,x:-300},0.05)
@@ -392,7 +423,9 @@ function detectMouseWheelDirection( e )
 function handleMouseWheelDirection( direction )
 {
     console.log( direction ); // see the direction in the console
+    console.log('plog -- animating',animating)
     if ( direction == 'down' && !animating ) {
+      console.log('plog -- firings')
       masterTimeline.play()
     } else if ( direction == 'up' && !animating) {
 
@@ -460,9 +493,39 @@ function initAudio(audioList) {
    }, {})
  }
 
- function playAudio ( audio, clip ) {
+ function playAudio ( audio, clip, duration ) {
    // this took a while to figure out.
    // for some reason timeline can only hold functions
    // that also return functions or are without the "()"
-   return () => {audio[clip].play()}
+   // return () => {audio[clip].play()}
+   if (duration && duration > 0) {
+     let audioTimeline = new TimelineLite()
+     console.log('plog -- f-audio call for : ', clip)
+     audioTimeline.call(() => {audio[clip].play()}, null, null, duration)
+     return audioTimeline
+   } else {
+     console.log('plog -- audio call for :', clip)
+     return () => {audio[clip].play()}
+   }
  }
+
+
+// helper functions for textShadow
+function subtitleUpdate ( text , delay ) {
+  console.log('plog -- updating text to : ',text)
+  if (delay && delay > 0) {
+    return TweenLite.to(subtitles, 1, {opacity:1,text:{value:`${text}`, padSpace:true, ease:Linear.none}}).delay(delay)
+  } else {
+    return TweenLite.to(subtitles, 1, {opacity:1,text:{value:`${text}`, padSpace:true, ease:Linear.none}})
+  }
+
+
+}
+
+function speechDelay ( seconds ) {
+  return TweenLite.to(subtitles, 0).delay(seconds)
+}
+
+function subtitleHide ( text ) {
+  return TweenLite.to(subtitles, 1, {opacity:0,text:{value:` `, padSpace:true, ease:Linear.none}})
+}
