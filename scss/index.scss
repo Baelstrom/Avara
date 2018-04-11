@@ -276,6 +276,7 @@ label {
   width: 100vw;
   height: 100vh;
   background-color:white;
+  overflow:hidden;
 }
 
 
@@ -318,8 +319,8 @@ label {
 }
 .circle{
   position:absolute;
-  width: 10vh;
-  height: 10vh;
+  width: 3vh;
+  height: 3vh;
 }
 .anxiety-letter__circle {
   opacity:0;
