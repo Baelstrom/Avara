@@ -22,6 +22,7 @@ let scenes = [
   secondTransition(),
   thirdTransition(),
   fourthTransition(),
+  fifthTransition(),
 ]
 
 // init function
@@ -38,25 +39,11 @@ function init() {
   })
   console.log('plog -- master', masterTimeline)
   // skipping to timeline I'm working on
-  masterTimeline.seek(8)
+  masterTimeline.seek(15)
 }
 
 // get the engine started
 init()
-
-// this is what turns the wheels in motion
-// function nextScene() {
-//   if (end) {
-//     console.log('plog -- animation is complete')
-//     return
-//   }
-//
-//   let newScene = scenes[currentScene]
-//   currentScene++
-//   newScene.start()
-//   console.log('plog -- now playing scene - ', newScene.name)
-//
-// }
 
 
 //             __    ___  ____ __  __  ____    ____    ____  ____ __ __  __ __ ______ __   ___   __  __  __
@@ -264,11 +251,6 @@ function fourthTransition () {
       console.log('plog -- dur',timeline.duration())
       timeline.to(anxietyText, 0.1, {fontSize:'18vmin',ease:Power3.easeIn,delay:0.4})
 
-
-
-
-
-
       timeline.add([
         // audio + subtitles
         // playAudio(audio, 'voice3'),
@@ -293,7 +275,6 @@ function fourthTransition () {
         TweenLite.to(T.childNodes[1], 2, {rotation:-80,ease:Power3.easeOut}),
         TweenLite.to(Y.childNodes[1], 2, {rotation:40,ease:Power3.easeOut}),
 
-        // morph to circle
       ])
       timeline.add([
         TweenMax.fromTo(A, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true}),
@@ -303,6 +284,95 @@ function fourthTransition () {
         TweenMax.fromTo(E, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true,delay:.2}),
         TweenMax.fromTo(T, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true,delay:.1}),
         TweenMax.fromTo(Y, .5,{ ease:Power3.easeIn},{ y:10, ease:Power3.easeIn, repeat: 2, yoyo: true,delay:.8}),
+      ])
+
+
+
+      // toggle animating as false
+      timeline.call(toggleAnimationState)
+
+      // return the completed timeline
+      return timeline
+    },
+  }
+}
+
+// ------------------------------------------------
+// ================================================
+//          SCENE 5 - hide text / show circles
+// ================================================
+// ------------------------------------------------
+
+
+function fifthTransition () {
+  return {
+    id: 1,
+    name: '',
+    description: '',
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
+
+      // set animating as true
+      timeline.add(toggleAnimationState)
+
+      // declare all the elements needed
+      let anxietyText = getById("anxietyText")
+      let A = getById("A-anxiety")
+      let N = getById("N-anxiety")
+      let X = getById("X-anxiety")
+      let I = getById("I-anxiety")
+      let E = getById("E-anxiety")
+      let T = getById("T-anxiety")
+      let Y = getById("Y-anxiety")
+
+      // Circles for transition
+      let Ac = getById("ACircle")
+      let Nc = getById("NCircle")
+      let Xc = getById("XCircle")
+      let Ic = getById("ICircle")
+      let Ec = getById("ECircle")
+      let Tc= getById("TCircle")
+      let Yc = getById("YCircle")
+      let subtitles = getById("subtitles")
+
+      // init audio
+      // let audioList = ['']
+      // let audio = initAudio(audioList)
+
+      // start animations
+      // hide text n make the circles appear
+      timeline.add([
+        TweenLite.to(A.childNodes[1], 1, {rotation:-360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
+        TweenLite.to(N.childNodes[1], 1, {rotation:-360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
+        TweenLite.to(X.childNodes[1], 1, {rotation:360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
+        TweenLite.to(I.childNodes[1], 1, {rotation:360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
+        TweenLite.to(E.childNodes[1], 1, {rotation:-360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
+        TweenLite.to(T.childNodes[1], 1, {rotation:-360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
+        TweenLite.to(Y.childNodes[1], 1, {rotation:360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
+        TweenLite.to(A, 1, {top:'20vh',left:'30vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(N, 1, {top:'30vh',left:'20vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(X, 1, {top:'10vh',left:'10vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(I, 1, {top:'0vh',left:'0vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(E, 1, {top:'-20vh',left:'-10vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(T, 1, {top:'-25vh',left:'-20vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(Y, 1, {top:'-15vh',left:'-30vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenMax.to(Ac, 1, {rotation:-360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
+        TweenMax.to(Nc, 1, {rotation:-360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
+        TweenMax.to(Xc, 1, {rotation:360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
+        TweenMax.to(Ic, 1, {rotation:360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
+        TweenMax.to(Ec, 1, {rotation:-360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
+        TweenMax.to(Tc, 1, {rotation:-360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
+        TweenMax.to(Yc, 1, {rotation:360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
+      ])
+      timeline.add([
+        TweenLite.to(A, 0.5, {top:'0vh',opacity:0,left:10,y:'-30vh',ease:Power3.easeOut}),
+        TweenLite.to(N, 0.5, {top:'0vh',opacity:0,left:10,y:'-30vh',ease:Power3.easeOut,delay:.1}),
+        TweenLite.to(X, 0.5, {top:'0vh',opacity:0,left:10,y:'-30vh',ease:Power3.easeOut}),
+        TweenLite.to(Ic, 2, { height:'15vh',width:'15vh',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false}), y: '-40vh', repeat:3, yoyo:true}),
+        TweenLite.to(E, 0.5, {top:'0vh',opacity:0,left:-10,y:'-30vh',ease:Power3.easeOut,delay:.2}),
+        TweenLite.to(T, 0.5, {top:'0vh',opacity:0,left:-10,y:'-30vh',ease:Power3.easeOut}),
+        TweenLite.to(Y, 0.5, {top:'0vh',opacity:0,left:-10,y:'-30vh',ease:Power3.easeOut,delay:.3}),
       ])
 
       // toggle animating as false
@@ -445,44 +515,9 @@ function scrollMeSilly() {
   }
 }
 
-// ------------------------------------------------
-// ================================================
-//          SCENE x - show anim canvas
-// ================================================
-// ------------------------------------------------
-
-
-// the init function is now a for loop that iterates through the scene array and calls generateScene and adds it to the masterTimeline
-// there needs to be a way to pause and play the scene though.
-function x () {
-  return {
-    id: 1,
-    name: '',
-    description: '',
-    generateScene() {
-      // initialize Timeline
-      var timeline = new TimelineMax()
-
-      // set animating as true
-      timeline.add(toggleAnimationState)
-
-      // declare all the elements needed
-
-
-      // start animations
-
-
-      // toggle animating as false
-      timeline.call(toggleAnimationState)
-
-      // return the completed timeline
-      return timeline
-    },
-  }
-}
-
 //  helper functions for audio
-// this one takes an audio list and inits them into howler objects
+// this one takes an audio array and inits them into howler objects
+// while also returning an object that holds the howler object instead of an array
 function initAudio(audioList) {
    return audioList.reduce((acc, cur) => {
      acc[cur] = new Howl({
@@ -496,7 +531,7 @@ function initAudio(audioList) {
  function playAudio ( audio, clip, duration ) {
    // this took a while to figure out.
    // for some reason timeline can only hold functions
-   // that also return functions or are without the "()"
+   // which also return functions or as plain objects without the " () "
    // return () => {audio[clip].play()}
    if (duration && duration > 0) {
      let audioTimeline = new TimelineLite()
@@ -526,4 +561,42 @@ function speechDelay ( seconds ) {
 
 function subtitleHide ( text ) {
   return TweenLite.to(subtitles, 1, {opacity:0,text:{value:` `, padSpace:true, ease:Linear.none}})
+}
+
+// ------------------------------------------------
+// ================================================
+//          SCENE x - scene description
+// ================================================
+// ------------------------------------------------
+
+
+function xTransition () {
+  return {
+    id: 1,
+    name: '',
+    description: '',
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
+
+      // set animating as true
+      timeline.add(toggleAnimationState)
+
+      // declare all the elements needed
+
+
+      // init audio
+      let audioList = ['']
+      let audio = initAudio(audioList)
+
+      // start animations
+
+
+      // toggle animating as false
+      timeline.call(toggleAnimationState)
+
+      // return the completed timeline
+      return timeline
+    },
+  }
 }
