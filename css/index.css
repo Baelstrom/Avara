@@ -229,13 +229,6 @@ label {
   text-shadow: 0 0 30px rgba(2, 2, 2, 0.5);
   font-size: 18vmin; }
 
-.circle {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  background-color: #333; }
-
 .anxietyText-shadowreveal {
   text-shadow: 0 0 0px #010101; }
 
@@ -312,5 +305,48 @@ label {
   position: relative;
   font-size: 3vh;
   color: white; }
+
+.sixthTransition {
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0vh;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: blue; }
+
+.circleContainer {
+  width: 100vh;
+  height: 100vh;
+  background-color: white;
+  position: absolute; }
+
+.circle {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-color: #333; }
+
+.circle-clockface-container {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  align-content: flex-end;
+  background-color: red;
+  height: 10%;
+  width: 50%;
+  top: 45%;
+  left: 50%; }
+
+.circle-clock-1 {
+  width: 20%;
+  margin-left: 80%; }
+
+.circle-clock-2 {
+  width: 20%;
+  margin-left: 80%; }
 
 /*# sourceMappingURL=index.css.map */

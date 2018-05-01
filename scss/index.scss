@@ -300,13 +300,7 @@ label {
   text-shadow: 0 0 30px rgba(2,2,2,0.5);
   font-size: 18vmin;
 }
-.circle {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  background-color: #333;
-}
+
 .anxietyText-shadowreveal {
   text-shadow: 0 0 0px rgba(1,1,1,1);
 }
@@ -363,4 +357,66 @@ label {
   position: relative;
   font-size:3vh;
   color:white
+}
+
+$radius : 5;
+$animationTime : 2;
+$n: 12; // number of dots
+$a: floor($n/4); // divides it into circles
+
+.sixthTransition {
+    z-index: 99;
+  display:flex;
+  align-items: center;
+  position: absolute;
+  top:0vh;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: blue;
+}
+
+.circleContainer {
+  width: 100vh;
+  height: 100vh;
+  background-color: white;
+  position: absolute;
+}
+
+.circle {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-color: #333;
+}
+
+.circle-clockface-container{
+  position:absolute;
+  display:flex;
+  align-items:flex-end;
+  align-content: flex-end;
+  background-color:red;
+  // margin-left: 35%;
+  height:$radius * 2%;
+  width: $radius * 10%;
+  top:50% - $radius ;
+  left:50%;
+  // transform-origin : left center;
+  // transform:  rotate(20deg) ;
+  // top:50px;
+  // left:200px;
+}
+
+@mixin clockBase {
+  width:20%;
+  margin-left:80%;
+}
+
+.circle-clock-1 {
+  @include clockBase;
+}
+
+.circle-clock-2 {
+  @include clockBase;
 }

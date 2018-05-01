@@ -23,6 +23,7 @@ let scenes = [
   thirdTransition(),
   fourthTransition(),
   fifthTransition(),
+  sixthTransition(),
 ]
 
 // init function
@@ -39,7 +40,7 @@ function init() {
   })
   console.log('plog -- master', masterTimeline)
   // skipping to timeline I'm working on
-  masterTimeline.seek(15)
+  masterTimeline.seek(23)
 }
 
 // get the engine started
@@ -384,6 +385,44 @@ function fifthTransition () {
   }
 }
 
+// ------------------------------------------------
+// ================================================
+//          SCENE 6 - scene description
+// ================================================
+// ------------------------------------------------
+
+
+function sixthTransition () {
+  return {
+    id: 1,
+    name: '',
+    description: '',
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
+
+      // set animating as true
+      timeline.add(toggleAnimationState)
+
+      // declare all the elements needed
+      let I = getById("I-anxiety")
+
+
+      // init audio
+      // let audioList = ['']
+      // let audio = initAudio(audioList)
+
+      // start animations
+
+
+      // toggle animating as false
+      timeline.call(toggleAnimationState)
+
+      // return the completed timeline
+      return timeline
+    },
+  }
+}
 
 //            __  __  ____ __    ____   ____ ____      ____ __ __ __  __   ___ ______ __   ___   __  __  __
 //            ||  || ||    ||    || \\ ||    || \\    ||    || || ||\ ||  //   | || | ||  // \\  ||\ || (( \
@@ -584,10 +623,9 @@ function xTransition () {
 
       // declare all the elements needed
 
-
       // init audio
       let audioList = ['']
-      let audio = initAudio(audioList)
+      // let audio = initAudio(audioList)
 
       // start animations
 
