@@ -33,10 +33,6 @@ $(document).ready(function() {
     mouseX = Math.round( (event.pageX / window.innerWidth) * 100 )
     mouseY =  Math.round( (event.pageY / window.innerHeight) * 100 )
   }
-
-    // change audio according to Y position
-    updateAudio(mouseY)
-
     // console.log(`x is : ${mouseX}, y is : ${mouseY}`)
   })
 
@@ -195,6 +191,9 @@ $(document).ready(function() {
           p.x = Math.random() * w;
           p.y = -20;
         }
+        
+        // change audio according to Y position
+        updateAudio(mouseY)
       }
     }
 
