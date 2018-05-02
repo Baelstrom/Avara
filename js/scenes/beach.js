@@ -13,20 +13,29 @@ $(document).ready(function() {
     }
    $(this).toggleClass('mute');
   });
+
   // track and update mouse coords
    let mouseX = 0
    let mouseY = 100
    let depth = false
    let isAudioTransitioning = false;
   $(document).on('mousemove touchmove',function(event){
-    if(event.type == 'touchstart' || event.type == 'touchmove' || event.type == 'touchend' || event.type == 'touchcancel'){
-    var touch = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
+    // check if it's a touch event
+    if( event.type == 'touchstart'  ||
+        event.type == 'touchmove'   ||
+        event.type == 'touchend'    ||
+        event.type == 'touchcancel' ){
+    let touch = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
+    // assign to mouse variables
     mouseX = Math.round( (touch.pageX / window.innerWidth) * 100 )
     mouseY =  Math.round( (touch.pageY / window.innerHeight) * 100 )
   } else {
+    // if mouse, assign immediately to mouse variables
     mouseX = Math.round( (event.pageX / window.innerWidth) * 100 )
     mouseY =  Math.round( (event.pageY / window.innerHeight) * 100 )
   }
+
+    wave()
     // console.log(`x is : ${mouseX}, y is : ${mouseY}`)
   })
 
@@ -101,21 +110,28 @@ $(document).ready(function() {
     var w = canvas.width;
     var h = canvas.height;
     ctx.strokeStyle = 'rgba(66, 134, 244,1)';
-    ctx.lineWidth = 60;
+    ctx.lineWidth = 150;
     ctx.lineCap = 'round';
 
-
+    let colors = [
+      '48,200,246',
+      '102,219,255',
+      '50,204,226',
+      '165,236,255',
+    ]
     var init = [];
-    var maxParts = 200;
+    var maxParts = 400;
     for(var a = 0; a < maxParts; a++) {
       init.push({
         x: Math.random() * w,
-        y: h + (Math.random() * h/4),
-        l: h,
+        y: -500 + Math.random() * h/2 * .3,
+        l: 80,
         xs: 0,
         ys: 4,
         t: Math.random(),
-        overshoot: Math.random() * h/2 * .2
+        motion: 'forward',
+        overshoot: Math.random() * h/2 * .4,
+        color : colors[Math.round((Math.random() * colors.length) -1)]
       })
     }
 
@@ -127,8 +143,8 @@ $(document).ready(function() {
     function draw() {
       ctx.clearRect(0, 0, w, h);
       for(var c = 0; c < particles.length; c++) {
-        ctx.strokeStyle = `rgba(66, 134, 244,1)`;
         var p = particles[c];
+        ctx.strokeStyle = `rgba(${p.color},1)`;
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(p.x + p.l * p.xs, p.y + p.l * p.ys);
@@ -140,20 +156,31 @@ $(document).ready(function() {
 
     function move() {
       // ctx.lineWidth = 4 - (4 * (mouseY/100)) + 0.5;
-      console.log('plog -- working')
       for(var b = 0; b < particles.length; b++) {
         var p = particles[b];
-        console.log('plog -- particle',p)
         // p.x += 4 * p.l* p.xs * (mouseY/100) ;
         // p.xs = ( mouseX * 2/100 ) -1
         // p.y += p.ys * p.l*(mouseY/100);
         // p.l = 4 * (mouseY/100)
-        let limit = h/2 - p.overshoot; // 700
-        let distance = p.y - limit // 1400 - 700 = 700
-        let velocity = (distance/limit) * 20
-        if( p.y > limit ) {
+        let forwardLimit = ( h/2 ) + p.overshoot - p.l - p.l - p.l -p.l -p.l -(p.l*.2)
+        let backwardLimit = ( h/2 ) + p.overshoot + p.l
+        let distance = forwardLimit - p.y  // 1400 - 700 = 700
+        let velocity = Math.round( (distance/forwardLimit) * 8 ) + 1
+
+        if( p.y < forwardLimit && p.motion == 'forward') {
+          p.y += velocity
+          if(p.y >= forwardLimit ) {
+            p.motion = 'backward'
+          }
+        } else if (( p.y >= 0 - (p.l*10) - p.overshoot ) && p.motion == 'backward'){
+          distance = backwardLimit - p.y
+          velocity = Math.round(((distance / backwardLimit)) * 8) + 1
+          console.log('plog -- ',velocity)
           p.y -= velocity
-        } 
+          if(p.y <= 0 - (p.l*10) - p.overshoot) {
+            p.motion = 'still'
+          }
+        }
 
 
         // check for exit conditions
@@ -164,6 +191,28 @@ $(document).ready(function() {
 
         // change audio according to Y position
         updateAudio(mouseY)
+      }
+    }
+
+    function wave () {
+      console.log('plog -- fired wave')
+      let flag = true
+      let i = 0
+      let flagged = 0
+      while(flag && i < particles.length) {
+        if(particles[i].motion == 'forward' || particles[i].motion == 'backward') {
+          console.log('plog -- flagged')
+          flag = false;
+        }
+        i = i + 1
+        console.log('plog -- i', i)
+      }
+
+      if(flag) {
+        particles.forEach(particle => {
+          particle.motion = 'forward'
+          particle.x = Math.random() * w
+        })
       }
     }
 
