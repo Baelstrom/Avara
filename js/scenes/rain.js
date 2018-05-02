@@ -6,6 +6,8 @@ $(document).ready(function() {
   audio['space'].play()
   audio['plink'].play()
   audio['heavy-rain'].fade(0,0.5,1000)
+  audio['space'].fade(0,0,10)
+  audio['plink'].fade(0,0,10)
   let mute = false;
   // heavyRain.fade(0,0.5,1000)
   // audio['heavy-rain'].play()
@@ -191,7 +193,7 @@ $(document).ready(function() {
           p.x = Math.random() * w;
           p.y = -20;
         }
-        
+
         // change audio according to Y position
         updateAudio(mouseY)
       }
