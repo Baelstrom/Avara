@@ -7,10 +7,19 @@ $(document).ready(function() {
   audio['space'].play()
   audio['plink'].play()
   audio['heavy-rain'].fade(0,0.5,1000)
-
+  let mute = false;
   // heavyRain.fade(0,0.5,1000)
   // audio['heavy-rain'].play()
-
+  $('.speaker').click(function(e) {
+    e.preventDefault();
+    for( let clip in audio){
+      audio['space'].mute(!mute)
+      audio['plink'].mute(!mute)
+      audio['heavy-rain'].mute(!mute)
+      mute = !mute
+    }
+   $(this).toggleClass('mute');
+  });
   // track and update mouse coords
    let mouseX = 0
    let mouseY = 100
