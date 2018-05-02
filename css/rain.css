@@ -9,7 +9,7 @@ body {
   z-index: 2;
   position: absolute;
   right: 1%;
-  top: 2%;
+  top: 0.6%;
   left: auto;
   overflow: hidden;
   display: inline-block;
@@ -51,5 +51,89 @@ body {
     .speaker.mute span:before {
       transform: scale(0.5) translate(-15px, 0) rotate(36deg);
       opacity: 0; }
+
+#sideBar {
+  z-index: 6;
+  text-align: center;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  width: 20%;
+  left: -20%;
+  position: absolute;
+  min-height: 100%;
+  background-color: #FFF;
+  color: #222;
+  -moz-transition: left 0.5s ease;
+  transition: left 0.5s ease; }
+  #sideBar div {
+    padding-top: 15%; }
+  #sideBar a {
+    font-family: 'Rasa', serif;
+    text-align: center;
+    text-decoration: none;
+    font-size: 4vmin; }
+    #sideBar a:visited {
+      color: #333; }
+  #sideBar .logo {
+    font-family: "Cedarville Cursive", cursive !important;
+    font-size: 4vmin;
+    position: absolute;
+    bottom: 2%;
+    text-align: center;
+    width: 100%; }
+
+.sideMenuList {
+  list-style: none;
+  height: 100%; }
+
+#menuIcon {
+  position: absolute;
+  width: 3vmin;
+  height: 3vmin;
+  z-index: 12; }
+
+#icon-close-black {
+  z-index: 10;
+  opacity: 0; }
+  #icon-close-black img {
+    z-index: 12;
+    width: 4vmin;
+    height: 4vmin; }
+
+#icon-menu-white {
+  z-index: 10; }
+  #icon-menu-white img {
+    z-index: 10;
+    width: 2vmin;
+    height: 2vmin;
+    opacity: 0.5;
+    transition: all .2s ease-out; }
+    #icon-menu-white img:hover {
+      width: 4vmin;
+      height: 4vmin;
+      opacity: 0.8; }
+
+input[type=checkbox] {
+  display: none;
+  -moz-transition: left 2s ease;
+  transition: left 2s ease; }
+
+input:checked ~ #sideBar {
+  left: 0; }
+
+input:checked ~ #content {
+  left: 20%; }
+
+label {
+  padding: 10px 0px 0px 10px;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  -moz-transition: left 2s ease;
+  transition: left 2s ease; }
+  label img {
+    width: 30px;
+    height: 30px; }
 
 /*# sourceMappingURL=rain.css.map */
