@@ -1,0 +1,171 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background: rgba(66, 134, 244,1);
+}
+.speaker {
+	height: 30px;
+	width: 30px;
+  z-index: 2;
+	position: absolute;
+  right:1%;
+  top:0.6%;
+  left: auto;
+	overflow: hidden;
+	display: inline-block;
+  opacity: 0.2;
+
+	span {
+		display: block;
+		width: 8px;
+		height: 8px;
+		margin: 11px 0 0 2px;
+
+		&:after {
+			content: '';
+			position: absolute;
+			width: 0;
+			height: 0;
+			border-style: solid;
+			border-color: transparent #fff transparent transparent;
+			border-width: 10px 14px 10px 15px;
+			left: -13px;
+			top: 5px;
+		}
+
+		&:before {
+			transform: rotate(45deg);
+			border-radius: 0 50px 0 0;
+			content: '';
+			position: absolute;
+			width: 5px;
+			height: 5px;
+			border-style: double;
+			border-color: #fff;
+			border-width: 7px 7px 0 0;
+			left: 18px;
+			top: 9px;
+			transition: all 0.2s ease-out;
+		}
+	}
+
+	&:hover {
+
+		span:before {
+			transform: scale(.8) translate(-3px, 0) rotate(42deg);
+    }
+    opacity: .5;
+	}
+
+  &.mute {
+    span:before {
+			transform: scale(.5) translate(-15px, 0) rotate(36deg);
+      opacity: 0;
+    }
+    opacity: .1
+  }
+}
+
+#sideBar {
+  z-index:6;
+  text-align: center;
+  list-style: none;
+  margin: 0px;
+  padding:0px;
+  width: 20%;
+  left: -20%;
+  position:absolute;
+  min-height: 100%;
+  background-color: #FFF;
+  color:#222;
+  -moz-transition: left 0.5s ease;
+  transition: left 0.5s ease;
+  div{
+    padding-top: 15%;
+  }
+  a{
+    font-family: 'Rasa', serif;
+    text-align: center;
+    text-decoration: none;
+    font-size:4vmin;
+
+    &:visited {
+      color: #333;
+    }
+  }
+  .logo{
+    font-family: 'Cedarville Cursive', cursive!important;
+    font-size:4vmin;
+    position: absolute;
+    bottom: 2%;
+    text-align: center;
+    width: 100%;
+  }
+
+}
+
+.sideMenuList {
+  list-style: none;
+  height:100%;
+
+}
+#menuIcon {
+  position: absolute;
+  width: 3vmin;
+  height:3vmin;
+  z-index:12;
+}
+#icon-close-black {
+  z-index:10;
+  opacity: 0;
+  img{
+    z-index:12;
+    width: 4vmin;
+    height:4vmin;
+  }
+}
+#icon-menu-white {
+  z-index:10;
+  img{
+    z-index:10;
+    width: 2vmin;
+    height:2vmin;
+    opacity: 0.5;
+    transition: all .2s ease-out;
+    &:hover {
+      width: 4vmin;
+      height:4vmin;
+      opacity: 0.8;
+    }
+  }
+}
+
+
+input[type=checkbox] {
+   display: none;
+   -moz-transition: left 2s ease;
+   transition: left 2s ease;
+}
+
+input:checked ~ #sideBar  {
+    left:0;
+}
+input:checked ~ #content  {
+    left:20%;
+}
+input:checked ~ label {
+    // left: 20%;
+}
+
+label {
+  padding: 10px 0px 0px 10px;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  -moz-transition: left 2s ease;
+  transition: left 2s ease;
+  img{
+    width:30px;
+    height: 30px;
+  }
+}

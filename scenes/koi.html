@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Avara</title>
+    <link rel="stylesheet" type="text/css" href="../css/koi.css">
+    <link href="https://fonts.googleapis.com/css?family=Cedarville+Cursive" rel="stylesheet">
+    <link rel="stylesheet" ref="https://fonts.googleapis.com/css?family=Rasa|Roboto" >
+  </head>
+  <body>
+    <input id="menuIcon" type="checkbox" role="button"/>
+    <label onclick="toggleMenu()" id='icon-close-black' for="menuIcon"><img src="../images/icon-close-black.png" alt="menu icon"></img></label>
+    <label onclick="toggleMenu()" id='icon-menu-white' for="menuIcon"><img src="../images/icon-menu-white.png" alt="menu icon"></img></label>
+
+    <div id="sideBar">
+      <div class="sideMenuList">
+        <div><a href="#">App</a></div>
+        <div><a href="#">About</a></div>
+        <div><a href="#">Research</a></div>
+      </div>
+      <div class="logo">
+        Avara
+      </div>
+    </div>
+    <div href="#" class="speaker">
+      <span></span>
+    </div>
+      <canvas id="canvas"></canvas>
+
+
+    <!-- Scripts -->
+    <!--Green Socks Animation Platform   -->
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TimelineMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/plugins/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/plugins/ModifiersPlugin.min.js"></script>
+    <script src="../js/GSAP/easing/CustomEase.min.js"></script>
+    <script src="../js/GSAP/plugins/TextPlugin.min.js"></script>
+    <script src="../js/howler/howler.min.js"></script>
+    <script src="../js/scenes/koi.js"></script>
+  </body>
+</html>
