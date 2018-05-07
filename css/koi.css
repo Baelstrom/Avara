@@ -1,7 +1,8 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: #4286f4; }
+  cursor: none;
+  background: #192237; }
 
 .speaker {
   height: 30px;
