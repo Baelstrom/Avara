@@ -3,6 +3,7 @@ $(document).ready(function() {
   // let audio = initAudio([])
 
   // audio icon control
+  let frameRate = 30
   $('.speaker').click(function(e) {
     e.preventDefault();
     for( let clip in audio){
@@ -114,7 +115,7 @@ $(document).ready(function() {
 
 
     var init = [];
-    var maxParts = 100;
+    var maxParts = 10;
     for(var a = maxParts; a > 0; a--) {
       init.push({
         x: w / 2,
@@ -124,8 +125,8 @@ $(document).ready(function() {
         ea: 2*Math.PI,
         ys: 4,
         opacity: 1* a/maxParts,
-        relativeDistance: 200* a/maxParts,
-        // rotation: 0,
+        rd: (10* a/maxParts)*2,
+        rotation:0,
       })
     }
 
@@ -140,15 +141,15 @@ $(document).ready(function() {
 
     function draw() {
       ctx.clearRect(0, 0, w, h);
-      koiFish.forEach( segment => {
-        let { x,y,r, sa, ea, opacity,relativeDistance } = segment
+      for( let i = 0; i < koiFish.length; i++ ){
+        let { x, y, r, sa, ea, opacity, rd } = koiFish[i]
         ctx.strokeStyle = `rgba(211,211,211,${opacity})`;
         ctx.fillStyle = `rgba(211,211,211,${opacity})`;
         ctx.beginPath();
-        ctx.arc(x+relativeDistance, y, r, sa, ea)
+        ctx.arc(x, y, r, sa, ea)
         ctx.closePath();
         ctx.fill();
-      })
+      }
       move();
     }
 
@@ -158,13 +159,14 @@ $(document).ready(function() {
       // ctx.lineWidth = 4 - (4 * (mouseY/100)) + 0.5;
       let head = koiFish[0]
       // get all variables
-      let {x,y,w,h} = head
+      let {x,y,w,h,rd} = head
+      let x1 = x
+      let y1 = y
       let x2 = mouseX
       let y2 = mouseY
       let dx = 0
       let dy = 0
       let velocity = 0
-      let
       // calculate distance to mouse position
       // use pythagoras  sqrt of ( x1-x2)^2 +  ( y1 - y2 )^2
       xDistance = Math.sqrt( Math.pow((x2 - x), 2) )
@@ -178,8 +180,7 @@ $(document).ready(function() {
       // head.x = getNewCoords ( x2, x, dx )
       // head.y = getNewCoords ( y2, y, dy )
 
-      history[0] = {x: getNewCoords ( x2, x, dx ), y: getNewCoords ( y2, y, dy )}
-
+      history[0] = {x: getNewCoords ( x1, x2, dx, rd ), y: getNewCoords ( y1, y2, dy, rd )}
       // apply history to entire koiFish
       for( let i = 0; i < koiFish.length; i++ ){
         let hx = history[i].x
@@ -189,7 +190,7 @@ $(document).ready(function() {
       }
 
       // shift array by one
-      for( let i = history.length; i > 0 ; i-- ) {
+      for( let i = koiFish.length; i > 0 ; i-- ) {
         history[i] = history[i-1]
       }
 
@@ -197,44 +198,31 @@ $(document).ready(function() {
 
 
 
-    }
+    } // end of move function
 
 
 
-    setInterval(draw, 10);
+    setInterval(draw, frameRate);
 
   }
 });
 
 // helper functions
 
-function getNewCoords ( w1, w2, velocity ) {
-  if (w2 > w1) {
-      return w1 + velocity;
+function getNewCoords ( w1, w2, velocity, rd ) {
+
+  if (w2 > w1){
+    return w1 + velocity
   } else if (w2 < w1) {
-      return w1 - velocity;
+    return w1 - velocity
   } else if (w2 == w1) {
-      return w1;
+    return w1
   }
+
 }
 
 function getVelocity ( distance ) {
-  let velocity = distance * 0.2
-
-  // if (distance > 300) {
-  //     velocity = 15;
-  // } else if (distance >= 200) {
-  //     velocity = 10;
-  // } else if (distance >= 100) {
-  //     velocity = 7;
-  // } else if (distance >= 50) {
-  //     velocity = 5;
-  // } else if (distance >= 1) {
-  //     velocity = 1;
-  // } else if (distance == 0) {
-  //     velocity = 0;
-  // }
-
+  let velocity = distance * 0.05
   return velocity;
 }
 
