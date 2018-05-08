@@ -6,6 +6,7 @@
     <title>Avara</title>
     <link rel="stylesheet" type="text/css" href="./css/index.css">
     <link href="https://fonts.googleapis.com/css?family=Cedarville+Cursive" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" ref="https://fonts.googleapis.com/css?family=Rasa|Roboto" >
   </head>
   <body>
@@ -68,7 +69,7 @@
           </div>
           <!-- END of thirdTransition -->
 
-          <div class="sixthTransition">
+          <!-- <div class="sixthTransition">
             <div class="circleContainer">
               <div class="circle-clockface-container">
                 <div class="circle circle-clock-1"></div>
@@ -78,58 +79,68 @@
               </div>
 
             </div>
-          </div>
+          </div> -->
           <!-- END of sixthTransition -->
-          
+
         </div>
         <!-- END of animation container -->
 
 
-
-        <div id="landingPage">
-          <div id="mainHeading">
-            <p>Feeling Anxious?</p>
-          </div>
-          <div id="subHeading">
-            <p>we're here to help ~</p>
-          </div>
-          <div class="introList">
-            <div class="introListItem">
-              <div class="introListIcon">
-                <img src="./images/icon-user.png" alt="user icon">
+        <div id="landingPageToggle">
+          <div id="landingPage">
+            <div id="mainHeading">
+              <p>Feeling Anxious?</p>
+            </div>
+            <div id="subHeading">
+              <p>we're here to help ~</p>
+            </div>
+            <div class="introList">
+              <div class="introListItem">
+                <div class="introListIcon">
+                  <img src="./images/icon-user.png" alt="user icon">
+                </div>
+                <div class="introListSeperator"></div>
+                <p class="introListItemText">This experience is designed to help
+                    you calm your anxious mind using
+                    breathing techniques</p>
               </div>
-              <div class="introListSeperator"></div>
-              <p class="introListItemText">This experience is designed to help
-                  you calm your anxious mind using
-                  breathing techniques</p>
+
+              <div class="introListSpacer"></div>
+
+              <div class="introListItem">
+                <div class="introListIcon">
+                  <img src="./images/icon-clock.png" alt="clock icon">
+                </div>
+                <div class="introListSeperator"></div>
+                <p class="introListItemText">Give yourself some time to unwind</p>
+              </div>
+
+              <div class="introListSpacer"></div>
+
+              <div class="introListItem">
+                <div class="introListIcon">
+                  <img src="./images/icon-headphones.png" alt="headphones icon">
+                </div>
+                <div class="introListSeperator"></div>
+                <p class="introListItemText">Headphones are highly recommended</p>
+              </div>
+
+
+
             </div>
 
-            <div class="introListSpacer"></div>
 
-            <div class="introListItem">
-              <div class="introListIcon">
-                <img src="./images/icon-clock.png" alt="clock icon">
-              </div>
-              <div class="introListSeperator"></div>
-              <p class="introListItemText">It will take 10 minutes of your time</p>
+
+            <div onclick="toggleLandingPage('start')" class="skipToFav">
+              <p>Start your journey here</p>
             </div>
-
-            <div class="introListSpacer"></div>
-
-            <div class="introListItem">
-              <div class="introListIcon">
-                <img src="./images/icon-headphones.png" alt="headphones icon">
-              </div>
-              <div class="introListSeperator"></div>
-              <p class="introListItemText">Headphones are highly recommended</p>
-            </div>
-
-
-
           </div>
-          <div class="skipToFav">
-            <p>or you can skip to your <a href="">favourite view</a></p>
+        </div>
+
+        <div class='introMessage'>
+          <div id="message">
           </div>
+
         </div>
         <!-- end of landingPage  -->
 
@@ -143,6 +154,13 @@
             <img class="chevron4" src="./images/icon-chevron.png" alt="menu icon">
             <img class="chevron5" src="./images/icon-chevron.png" alt="menu icon">
           </id>
+
+         Before we begin,
+         Know that while your anxious mind feels quite upsetting right now
+         The discomfort and uneasiness is temporary,
+         You're going to be okay.
+
+         Just, breathe.
 
         </div> -->
       </div>
@@ -161,5 +179,26 @@
     <script src="./js/GSAP/plugins/TextPlugin.min.js"></script>
     <script src="./js/howler/howler.min.js"></script>
     <script src="./js/index.js"></script>
+
+    <script>
+
+      function getScript () {
+        $.getScript( "js/introMessage.js", function( data, textStatus, jqxhr ) {
+          // console.log( data ); // Data returned
+          // console.log( textStatus ); // Success
+          // console.log( jqxhr.status ); // 200
+          // console.log( "Load was performed." );
+
+          let statusCode = jqxhr.status
+
+          if (statusCode == 200) {
+            toggleLandingPage()
+            let htmlReturned = introMessageHTML()
+            console.log(htmlReturned)
+            // $('.introMessage').html(htmlReturned)
+          }
+        })
+      }
+    </script>
   </body>
 </html>

@@ -6,7 +6,8 @@ body {
   background-color: #222;
   font-weight: 600;
   color: white;
-  font-family: 'Roboto', sans-serif; }
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden; }
 
 p {
   margin: 0px;
@@ -197,9 +198,15 @@ label {
   top: 10%;
   font-size: 2.5vmin;
   font-weight: 300;
-  color: white; }
+  color: white;
+  border-style: solid;
+  border-width: 0.5vh;
+  padding: 2vh;
+  border-color: rgba(255, 255, 255, 0.1); }
   .skipToFav a:visited {
     color: white; }
+  .skipToFav:hover {
+    cursor: pointer; }
 
 #animationContainer {
   z-index: 5;
@@ -348,5 +355,14 @@ label {
 .circle-clock-2 {
   width: 20%;
   margin-left: 80%; }
+
+.introMessage {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 6vh; }
+  .introMessage .message {
+    opacity: 0; }
 
 /*# sourceMappingURL=index.css.map */

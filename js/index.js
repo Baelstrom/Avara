@@ -8,6 +8,8 @@ let menuToggle = true
 let animating = false
 let currentScene = 0
 let paused = false
+let landingPageToggle = false
+let landingPageContent = $('#landingPageToggle').html()
 let masterTimeline = new TimelineMax()
 
 
@@ -19,11 +21,13 @@ let masterTimeline = new TimelineMax()
 // create scenes array as machine
 let scenes = [
   firstTransition(),
-  secondTransition(),
-  thirdTransition(),
-  fourthTransition(),
-  fifthTransition(),
-  sixthTransition(),
+  // secondTransition(),
+  // thirdTransition(),
+  // fourthTransition(),
+  // fifthTransition(),
+  // sixthTransition(),
+  seventhTransition(),
+  eighthTransition(),
 ]
 
 // init function
@@ -34,18 +38,24 @@ function init() {
     // example of loosely checking for equality.
     // because I know that the scene.id var is not going to return strings at any point in time anyway.
     masterTimeline.add( scene.generateScene() )
-    if ( scene.id == 1 ) {
-      masterTimeline.addPause(8.4)
+    if ( scene.id == 0 ) {
+      console.log('plog --fored ')
+      masterTimeline.addPause(8.2)
     }
   })
-  console.log('plog -- master', masterTimeline)
   // skipping to timeline I'm working on
-  masterTimeline.seek(23)
+  // masterTimeline.seek(8)
 }
 
 // get the engine started
 init()
 
+
+// second engine
+
+function initSimpleIntro () {
+
+}
 
 //             __    ___  ____ __  __  ____    ____    ____  ____ __ __  __ __ ______ __   ___   __  __  __
 //            (( \  //   ||    ||\ || ||       || \\  ||    ||    || ||\ || || | || | ||  // \\  ||\ || (( \
@@ -351,13 +361,13 @@ function fifthTransition () {
         TweenLite.to(E.childNodes[1], 1, {rotation:-360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
         TweenLite.to(T.childNodes[1], 1, {rotation:-360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
         TweenLite.to(Y.childNodes[1], 1, {rotation:360,fontSize:'1vh',opacity:0,ease:Power3.easeOut,delay:0.4}),
-        TweenLite.to(A, 1, {top:'20vh',left:'30vh',ease:Elastic.easeOut,delay:0.4}),
-        TweenLite.to(N, 1, {top:'30vh',left:'20vh',ease:Elastic.easeOut,delay:0.4}),
-        TweenLite.to(X, 1, {top:'10vh',left:'10vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(A, 1, {left:'40vh',top:'15vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(N, 1, {left:'35vh',top:'-35vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(X, 1, {left:'23vh',top:'-25vh',ease:Elastic.easeOut,delay:0.4}),
         TweenLite.to(I, 1, {top:'0vh',left:'0vh',ease:Elastic.easeOut,delay:0.4}),
-        TweenLite.to(E, 1, {top:'-20vh',left:'-10vh',ease:Elastic.easeOut,delay:0.4}),
-        TweenLite.to(T, 1, {top:'-25vh',left:'-20vh',ease:Elastic.easeOut,delay:0.4}),
-        TweenLite.to(Y, 1, {top:'-15vh',left:'-30vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(E, 1, {left:'-20vh',top:'30vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(T, 1, {left:'-30vh',top:'-20vh',ease:Elastic.easeOut,delay:0.4}),
+        TweenLite.to(Y, 1, {left:'-55vh',top:'-40vh',ease:Elastic.easeOut,delay:0.4}),
         TweenMax.to(Ac, 1, {rotation:-360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
         TweenMax.to(Nc, 1, {rotation:-360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
         TweenMax.to(Xc, 1, {rotation:360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
@@ -367,13 +377,13 @@ function fifthTransition () {
         TweenMax.to(Yc, 1, {rotation:360,height:'10vh',width:'10vh',opacity:1,ease:Elastic.easeOut,delay:0.4}),
       ])
       timeline.add([
-        TweenLite.to(A, 0.5, {top:'0vh',opacity:0,left:10,y:'-30vh',ease:Power3.easeOut}),
-        TweenLite.to(N, 0.5, {top:'0vh',opacity:0,left:10,y:'-30vh',ease:Power3.easeOut,delay:.1}),
-        TweenLite.to(X, 0.5, {top:'0vh',opacity:0,left:10,y:'-30vh',ease:Power3.easeOut}),
+        TweenLite.to(A, 0.5, {top:'0vh',opacity:0,left:'0vh',y:'-30vh',ease:Power3.easeOut}),
+        TweenLite.to(N, 0.5, {top:'0vh',opacity:0,left:'0vh',y:'-30vh',ease:Power3.easeOut,delay:.1}),
+        TweenLite.to(X, 0.5, {top:'0vh',opacity:0,left:'0vh',y:'-30vh',ease:Power3.easeOut}),
         TweenLite.to(Ic, 2, { height:'15vh',width:'15vh',ease: RoughEase.ease.config({ template:  Power0.easeNone, strength: 2, points: 50, taper: "out", randomize:  true, clamp: false}), y: '-40vh', repeat:3, yoyo:true}),
-        TweenLite.to(E, 0.5, {top:'0vh',opacity:0,left:-10,y:'-30vh',ease:Power3.easeOut,delay:.2}),
-        TweenLite.to(T, 0.5, {top:'0vh',opacity:0,left:-10,y:'-30vh',ease:Power3.easeOut}),
-        TweenLite.to(Y, 0.5, {top:'0vh',opacity:0,left:-10,y:'-30vh',ease:Power3.easeOut,delay:.3}),
+        TweenLite.to(E, 0.5, {top:'0vh',opacity:0,left:'0vh',y:'-30vh',ease:Power3.easeOut,delay:.2}),
+        TweenLite.to(T, 0.5, {top:'0vh',opacity:0,left:'0vh',y:'-30vh',ease:Power3.easeOut}),
+        TweenLite.to(Y, 0.5, {top:'0vh',opacity:0,left:'0vh',y:'-30vh',ease:Power3.easeOut,delay:.3}),
       ])
 
       // toggle animating as false
@@ -424,13 +434,147 @@ function sixthTransition () {
   }
 }
 
+// ------------------------------------------------
+// ================================================
+//          SCENE 7 - New Intro
+// ================================================
+// ------------------------------------------------
+
+
+function seventhTransition () {
+  return {
+    id: 7,
+    name: 'Simple Intro',
+    description: '',
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
+
+      // set animating as true
+      timeline.add(toggleAnimationState)
+
+      // declare all the elements needed
+      let message = $('#message')
+      // init audio
+      let audioList = ['']
+      // let audio = initAudio(audioList)
+      let messages = [
+        'Before we begin',
+        'Know that while your anxious mind ',
+        'feels quite upset right now',
+        'The discomfort and uneasiness',
+        'is only temporary',
+        `You're going to be okay.`,
+      ]
+      // start animations
+
+      timeline.to(message, 1.5,{} )
+      messages.forEach( messageText => {
+        timeline.to(message, 0, {opacity:0}),
+        timeline.add([
+          TweenLite.to(message, 1, {text:{value:messageText, padSpace:true, ease:Linear.none}}),
+        ])
+        timeline.to(message, 1, {opacity:1}),
+
+        timeline.to(message, 1,{} )
+        timeline.to(message, 1, {opacity:0,ease:Power3.easeOut})
+        timeline.to(message, 0, {opacity:0,text:{value:'', padSpace:true, ease:Linear.none}})
+      })
+
+      timeline.to(message, .5, {opacity:0}),
+      timeline.add([
+        TweenLite.to(message, 1, {text:{value:'so lets begin~', padSpace:true, ease:Linear.none}}),
+      ])
+      timeline.to(message, 1, {opacity:1}),
+
+      timeline.to(message, 1,{} )
+      timeline.to(message, 1, {opacity:0,ease:Power3.easeOut})
+      timeline.to(message, 0, {opacity:0,text:{value:'', padSpace:true, ease:Linear.none}})
+
+
+      // toggle animating as false
+      timeline.call(toggleAnimationState)
+
+      // return the completed timeline
+      return timeline
+    },
+  }
+}
+
+// ------------------------------------------------
+// ================================================
+//          SCENE 8 - The First step
+// ================================================
+// ------------------------------------------------
+
+
+function eighthTransition () {
+  return {
+    id: 8,
+    name: 'Simple Intro',
+    description: '',
+    generateScene() {
+      // initialize Timeline
+      var timeline = new TimelineMax()
+
+      // set animating as true
+      timeline.add(toggleAnimationState)
+
+      // declare all the elements needed
+      let message = $('#message')
+      // init audio
+      let audioList = ['']
+      // let audio = initAudio(audioList)
+      let messages = [
+        'Before we begin',
+        'Know that while your anxious mind ',
+        'feels quite upset right now',
+        'The discomfort and uneasiness',
+        'is only temporary',
+        `You're going to be okay.`,
+      ]
+      // start animations
+
+      timeline.to(message, 1.5,{} )
+      messages.forEach( messageText => {
+        timeline.to(message, 0, {opacity:0}),
+        timeline.add([
+          TweenLite.to(message, 1, {text:{value:messageText, padSpace:true, ease:Linear.none}}),
+        ])
+        timeline.to(message, 1, {opacity:1}),
+
+        timeline.to(message, 1,{} )
+        timeline.to(message, 1, {opacity:0,ease:Power3.easeOut})
+        timeline.to(message, 0, {opacity:0,text:{value:'', padSpace:true, ease:Linear.none}})
+      })
+
+      timeline.to(message, .5, {opacity:0}),
+      timeline.add([
+        TweenLite.to(message, 1, {text:{value:'so lets begin~', padSpace:true, ease:Linear.none}}),
+      ])
+      timeline.to(message, 1, {opacity:1}),
+
+      timeline.to(message, 1,{} )
+      timeline.to(message, 1, {opacity:0,ease:Power3.easeOut})
+      timeline.to(message, 0, {opacity:0,text:{value:'', padSpace:true, ease:Linear.none}})
+
+
+      // toggle animating as false
+      timeline.call(toggleAnimationState)
+
+      // return the completed timeline
+      return timeline
+    },
+  }
+}
+
 //            __  __  ____ __    ____   ____ ____      ____ __ __ __  __   ___ ______ __   ___   __  __  __
 //            ||  || ||    ||    || \\ ||    || \\    ||    || || ||\ ||  //   | || | ||  // \\  ||\ || (( \
 //            ||==|| ||==  ||    ||_// ||==  ||_//    ||==  || || ||\\|| ((      ||   || ((   )) ||\\||  \\
 //            ||  || ||___ ||__| ||    ||___ || \\    ||    \\_// || \||  \\__   ||   ||  \\_//  || \|| \_))
 
 
-scrollMeSilly()
+// scrollMeSilly()
 
 
 
@@ -444,6 +588,39 @@ function toggleAnimationState() {
 //
 // MENU ANIMATION FUNCTIONS
 
+
+
+
+function toggleLandingPage(input){
+  if ( landingPageToggle ) {
+    console.log('plog -- firing show')
+    $('#landingPageToggle').html(landingPageContent)
+    let landingPage = getById('landingPage')
+    TweenLite.to(landingPage, 0, {opacity:0})
+    TweenLite.to(landingPage, 1, {opacity:1,top:'0vh'})
+  } else {
+    let landingPage = getById('landingPage')
+    console.log('plog -- firing hide')
+    TweenLite.to(landingPage, 0.3, {opacity: 0,y:-50})
+    setTimeout( () => {
+      console.log('plog -- removing')
+      landingPageContent = $('#landingPageToggle').html()
+      $('#landingPage').remove()
+      if( input === 'start') {
+        masterTimeline.play()
+      }
+    },400)
+    // setTimeout( () => {
+    //   if( input === 'start') {
+    //     masterTimeline.play()
+    //   }
+    // },600)
+  }
+
+  landingPageToggle = !landingPageToggle
+
+}
+
 function toggleMenu() {
   toggleMenuIcon()
   staggerMenuItems()
@@ -452,7 +629,7 @@ function toggleMenu() {
 function toggleMenuIcon () {
   // check current state
   // if menu is shown then hide Hamburger display X
-  // else hide X show Hamburger
+  // else hide X show Hamburger23
   let iconHamWhite = getById ('icon-menu-white')
   let iconCloseBlack = getById ('icon-close-black')
 
@@ -591,6 +768,15 @@ function subtitleUpdate ( text , delay ) {
     return TweenLite.to(subtitles, 1, {opacity:1,text:{value:`${text}`, padSpace:true, ease:Linear.none}}).delay(delay)
   } else {
     return TweenLite.to(subtitles, 1, {opacity:1,text:{value:`${text}`, padSpace:true, ease:Linear.none}})
+  }
+}
+
+function textUpdate ( text , element, delay  ) {
+  console.log('plog -- updating text to : ',text)
+  if (delay && delay > 0) {
+    return TweenLite.to(element, 1, {opacity:1,text:{value:`${text}`, padSpace:true, ease:Linear.none}}).delay(delay)
+  } else {
+    return TweenLite.to(element, 1, {opacity:1,text:{value:`${text}`, padSpace:true, ease:Linear.none}})
   }
 }
 
