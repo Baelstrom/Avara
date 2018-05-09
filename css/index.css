@@ -55,8 +55,17 @@ p {
     width: 100%; }
 
 .sideMenuList {
+  font-family: 'Rasa', serif;
+  text-align: center;
+  text-decoration: none;
+  font-size: 4vmin;
   list-style: none;
   height: 100%; }
+  .sideMenuList .sideMenuListItem {
+    transition: all 0.2s ease; }
+    .sideMenuList .sideMenuListItem:hover {
+      transform: translateY(1vh);
+      cursor: pointer; }
 
 #menuIcon {
   position: absolute;
@@ -473,10 +482,11 @@ label {
   opacity: .5; }
 
 #selectionScreen {
+  opacity: 0;
+  display: hidden;
   height: 100vh;
   width: 100vw;
-  display: flex;
-  transition: all 5s ease; }
+  display: flex; }
   #selectionScreen .scenes {
     width: 100vw;
     display: flex;

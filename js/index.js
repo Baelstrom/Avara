@@ -43,7 +43,22 @@ breatherTimeline.to(relax, .5,{opacity:0.5,ease:Elastic.easeOut.config(1, 1)},7)
 breatherTimeline.to(relax, 3,{},5.5)
 
 function sceneSelection () {
-  content.remove()
+  let timeline = new TimelineLite()
+
+  timeline.to($('#content'),1, {opacity:0})
+  mainContainer.html(`<div id="selectionScreen">
+      <div class="scenes">
+        <div class='sceneSelectPls'>Select a Scene</div>
+        <div onclick="selectScene('spacewhale')"class="sceneItem">Space Whale</div>
+        <div onclick="selectScene('rain')"class="sceneItem">Rain</div>
+        <div onclick="selectScene('beach')"class="sceneItem">Beach</div>
+      </div>
+  </div> `)
+  let selectionScreen2 = $('#selectionScreen')
+  timeline.add(()=> {content.remove()})
+  timeline.to(selectionScreen2,0, {opacity:0,display:'flex'})
+  timeline.to(selectionScreen2,1, {opacity:'1!important',display:'flex'})
+  timeline.to(selectionScreen2,1, {opacity:1,display:'flex'})
 }
 
 function selectScene ( name ) {
@@ -138,7 +153,7 @@ function init() {
     }
   })
   // skipping to timeline I'm working on
-  // masterTimeline.seek(39)
+  masterTimeline.seek(62)
 }
 
 // get the engine started
@@ -740,7 +755,7 @@ function eighthTransition () {
       timeline.to(content, 1, {autoAlpha:0})
 
       timeline.add( ()=> {
-        content.remove()
+        sceneSelection()
       })
 
 

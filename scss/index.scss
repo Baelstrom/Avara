@@ -69,8 +69,19 @@ p {
 }
 
 .sideMenuList {
+  font-family: 'Rasa', serif;
+  text-align: center;
+  text-decoration: none;
+  font-size:4vmin;
   list-style: none;
   height:100%;
+  .sideMenuListItem{
+    transition: all.2s ease;
+    &:hover{
+      transform:translateY(1vh);
+      cursor: pointer;
+    }
+  }
 
 }
 #menuIcon {
@@ -572,12 +583,11 @@ $a: floor($n/4); // divides it into circles
 }
 
 #selectionScreen{
-  // opacity:0;
-  // display:hidden;
+  opacity:0;
+  display:hidden;
   height:100vh;
   width:100vw;
   display:flex;
-  transition: all 5s ease;
   .scenes {
     width:100vw;
     .sceneSelectPls{
