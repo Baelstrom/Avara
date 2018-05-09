@@ -10,23 +10,35 @@
     <link rel="stylesheet" ref="https://fonts.googleapis.com/css?family=Rasa|Roboto" >
   </head>
   <body>
+    <input id="menuIcon" type="checkbox" role="button"/>
+    <label onclick="toggleMenu()" id='icon-close-black' for="menuIcon"><img src="./images/icon-close-black.png" alt="menu icon"></img></label>
+    <label onclick="toggleMenu()" id='icon-menu-white' for="menuIcon"><img src="./images/icon-menu-white.png" alt="menu icon"></img></label>
+
+    <div id="sideBar">
+      <div class="sideMenuList">
+        <div><a href="#">App</a></div>
+        <div><a href="#">About</a></div>
+        <div><a href="#">Research</a></div>
+      </div>
+      <div class="logo">
+        Avara
+      </div>
+    </div>
+    <div href="#" class="speaker">
+      <span></span>
+    </div>
+    <div id="selectionScreen">
+        <div class="scenes">
+          <div class='sceneSelectPls'>Select a Scene</div>
+          <div onclick="selectScene('spacewhale')"class="sceneItem">Space Whale</div>
+          <div onclick="selectScene('rain')"class="sceneItem">Rain</div>
+          <div onclick="selectScene('beach')"class="sceneItem">Beach</div>
+        </div>
+    </div>
 
     <div id="mainContainer">
 
-      <input id="menuIcon" type="checkbox" role="button"/>
-      <label onclick="toggleMenu()" id='icon-close-black' for="menuIcon"><img src="./images/icon-close-black.png" alt="menu icon"></img></label>
-      <label onclick="toggleMenu()" id='icon-menu-white' for="menuIcon"><img src="./images/icon-menu-white.png" alt="menu icon"></img></label>
 
-      <div id="sideBar">
-        <div class="sideMenuList">
-          <div><a href="#">App</a></div>
-          <div><a href="#">About</a></div>
-          <div><a href="#">Research</a></div>
-        </div>
-        <div class="logo">
-          Avara
-        </div>
-      </div>
 
       <div id="content">
         <div id="animationContainer">
@@ -140,7 +152,84 @@
         <div class='introMessage'>
           <div id="message">
           </div>
+          <div id="instructions">
+            <div id="instructionHeading">
+              Step One.
+            </div>
+            <div id="instructionContent">
+              <div id="stepOne">
+                <div>Accept the Anxiety.</div>
+                <div><br></div>
+                <div>The natural instinct when you're feeling anxious,</div>
+                <div>Is to reject it and want to run away from it,</div>
+                <div>To ignore it and hope that it'll go away,</div>
+                <div>But often, trying so hard to ignore it makes us feel worse,</div>
+                <div><br></div>
+                <div>Instead, a better approach is accept that the feeling will pass,</div>
+                <div>Know that you are anxious,</div>
+                <div>Know that you're going to feel a little unsettled,</div>
+                <div>That you're going to be uncomfortable for a while,</div>
+                <div><br></div>
+                <div>Know that despite it all,</div>
+                <div>The feeling will pass.</div>
+              </div>
 
+              <div id="stepTwo">
+                <div>Breathe.</div>
+                <div>Breathe Deeply, </div>
+                <div><br></div>
+                <div>Letting your chest and stomach expand as you breathe in,</div>
+                <div>Filling your lungs up to the fullest extent,</div>
+                <div><br></div>
+                <div>Before you breathe out slowly,</div>
+                <div><br></div>
+                <div>Here's a little help~</div>
+              </div>
+
+              <div id="breather">
+                <div id="breatherCircle">
+
+                </div>
+                <div id="breatherInstructions">
+                  <div id="inhale">
+                    Inhale
+                  </div>
+                  <div id="sustain">
+                    Sustain
+                  </div>
+                  <div id="exhale">
+                    Exhale
+                  </div>
+                  <div id="relax">
+                    Relax
+                  </div>
+                </div>
+              </div>
+
+              <div id="stepThree">
+                <div>Be Mindful and Present.</div>
+                <div><br></div>
+                <div>Gently guide your mind to focus on the present,</div>
+                <div><br></div>
+                <div>Focus on the sounds and scenery around you,</div>
+                <div>The colors, the contrasts</div>
+                <div>The motion and movement</div>
+                <div><br></div>
+                <div>If the environment around you is a bit too hectic,</div>
+                <div>You could try picking one of the handcrafted scenes,</div>
+                <div>Designed and developed,</div>
+                <div>For the sole purpose of anxiety relief.</div>
+              </div>
+
+            <div onclick='resumeAnimation()' id="nextButton">
+              Next
+            </div>
+            <div onclick='resumeAnimation()' id="selectButton">
+              Next
+            </div>
+          </div>
+
+        </div>
         </div>
         <!-- end of landingPage  -->
 

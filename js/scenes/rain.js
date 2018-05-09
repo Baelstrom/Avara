@@ -1,6 +1,6 @@
-$(document).ready(function() {
+function start() {
   // init audio
-  let audio = initAudio(['heavy-rain','space','plink'])
+  let audio = initAudioRain(['heavy-rain','space','plink'])
   // let heavyRain = audio['heavy-rain'].play()
   audio['heavy-rain'].play()
   audio['space'].play()
@@ -136,7 +136,7 @@ $(document).ready(function() {
 
 
 
-  var canvas = $('#canvas')[0];
+  var canvas = $('#rain')[0];
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
@@ -202,11 +202,11 @@ $(document).ready(function() {
     setInterval(draw, 30);
 
   }
-});
+}
 
 
 
-function initAudio(audioList) {
+function initAudioRain(audioList) {
    return audioList.reduce((acc, cur) => {
      acc[cur] = new Howl({
        src: [`../audio/scenes/rain/${cur}.mp3`],
@@ -215,52 +215,4 @@ function initAudio(audioList) {
      })
      return acc
    }, {})
- }
-
- let menuToggle = true
-
- function toggleMenu() {
-   toggleMenuIcon()
-   staggerMenuItems()
- }
-
- function toggleMenuIcon () {
-   // check current state
-   // if menu is shown then hide Hamburger display X
-   // else hide X show Hamburger
-   let iconHamWhite = getById ('icon-menu-white')
-   let iconCloseBlack = getById ('icon-close-black')
-
-   if(menuToggle) {
-     // hide Ham
-     TweenLite.to(iconHamWhite, 0.2, {opacity: 0})
-     // show X
-     TweenLite.to(iconCloseBlack, 0.2, {opacity: 1})
-   } else {
-     // hide X
-     TweenLite.to(iconCloseBlack, 0.2, {opacity: 0})
-     // show Ham
-     TweenLite.to(iconHamWhite, 0.2, {opacity: 1}).delay(0.5)
-   }
-
-   // toggle state
-   menuToggle = !menuToggle
- }
-
- function staggerMenuItems () {
-   // let menuItems = getByClassName('sideMenuList').childNodes
-   let menuItems = getByClassName('sideMenuList')[0].childNodes
-   if(menuToggle) {
-     TweenLite.to(menuItems, 0.2, {opacity: 0})
-   } else {
-     TweenMax.staggerFrom(menuItems, 0.3, {opacity:0,x:-300},0.05)
-   }
- }
-
- function getById ( targetId ) {
-   return document.getElementById(targetId)
- }
-
- function getByClassName ( targetClass ) {
-   return document.getElementsByClassName(targetClass)
  }

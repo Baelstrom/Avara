@@ -11,7 +11,93 @@ let paused = false
 let landingPageToggle = false
 let landingPageContent = $('#landingPageToggle').html()
 let masterTimeline = new TimelineMax()
+let breatherTimeline = new TimelineMax({repeat:-1})
+let breather = $('#breather')
+let inhale = $('#inhale')
+let sustain = $('#sustain')
+let exhale = $('#exhale')
+let relax = $('#relax')
+let breatherCircle = $('#breatherCircle')
+let breatherInstructions = $('#breatherInstructions')
+let mainContainer = $('#mainContainer')
+let content = $('#content')
+let selectionScreen = $('#selectionScreen')
 
+// define circle animations
+breatherTimeline.to(breatherCircle, 3,{width:'20vh',height:'20vh',opacity:.8,ease:Elastic.easeOut.config(1, 1)})
+breatherTimeline.to(breatherCircle, 4,{width:'0vh',height:'0vh',opacity:0,ease:Elastic.easeInOut.config(1, 1)})
+
+// define inhale
+breatherTimeline.to(relax, .5,{opacity: 0.5,ease:Elastic.easeOut.config(1, 1)},0)
+breatherTimeline.to(inhale, .5,{opacity:1,ease:Elastic.easeOut.config(1, 1)},0)
+// define sustain
+breatherTimeline.to(inhale, .5,{opacity: 0.5,ease:Elastic.easeOut.config(1, 1)},2.5)
+breatherTimeline.to(sustain, .5,{opacity:1,ease:Elastic.easeOut.config(1, 1)},2.5)
+// define exhale
+breatherTimeline.to(sustain, .5,{opacity: 0.5,ease:Elastic.easeOut.config(1, 1)},4)
+breatherTimeline.to(exhale, .5,{opacity:1,ease:Elastic.easeOut.config(1, 1)},4)
+// define relax
+breatherTimeline.to(exhale, .5,{opacity: 0.5,ease:Elastic.easeOut.config(1, 1)},5.5)
+breatherTimeline.to(relax, .5,{opacity:1,ease:Elastic.easeOut.config(1, 1)},5.5)
+breatherTimeline.to(relax, .5,{opacity:0.5,ease:Elastic.easeOut.config(1, 1)},7)
+breatherTimeline.to(relax, 3,{},5.5)
+
+function sceneSelection () {
+  content.remove()
+}
+
+function selectScene ( name ) {
+  // set url
+  let selectionScreen2 = $('#selectionScreen')
+  let scenesNames = ['spacewhale','beach','rain']
+
+  scenesNames = scenesNames.filter(item => {if(item !== name){return true}} )
+  // start synchronous via timeline
+  console.log('plog -- runshere')
+  let timeline = new TimelineLite()
+  timeline.to(selectionScreen2, 1, {opacity:0})
+  timeline.add( () => {
+    selectionScreen2.remove()
+    mainContainer.html(' ')
+
+  })
+
+  timeline.add( () => {
+    // try to remove other canvas elements
+    scenesNames.forEach( scene => {
+      $(`#${scene}`).remove()
+    })
+
+    // try to remove other canvas scripts/css
+    scenesNames.forEach( scene => {
+      removejscssfile(scene,'js')
+      removejscssfile(scene,'css')
+    })
+
+    // create the new scene element
+    mainContainer.html(`<canvas id='${name}'></canvas>`)
+    TweenLite.to($('#mainContainer'),0,{opacity:0})
+    $("<link/>", {
+       rel: "stylesheet",
+       type: "text/css",
+       href: `css/${name}.css`
+    }).appendTo("head");
+
+    $.getScript( `js/scenes/${name}.js`, function( data, textStatus, jqxhr ) {
+
+      let statusCode = jqxhr.status
+
+      // if recieved then continue
+      if (statusCode == 200) {
+        start()
+
+        console.log('plog -- le scene success',name)
+        TweenLite.to($('#mainContainer'),3,{opacity:1})
+      }
+    })
+  })
+
+}
 
 //             __  ______  ___  ______  ____    ___  ___  ___    ___ __  __ __ __  __  ____
 //            (( \ | || | // \\ | || | ||       ||\\//|| // \\  //   ||  || || ||\ || ||
@@ -39,23 +125,25 @@ function init() {
     // because I know that the scene.id var is not going to return strings at any point in time anyway.
     masterTimeline.add( scene.generateScene() )
     if ( scene.id == 0 ) {
-      console.log('plog --fored ')
       masterTimeline.addPause(8.2)
+    }
+    if ( scene.id == 8 ) {
+      // 39 is where this scene starts
+      // masterTimeline.addPause(42.75) // is where the header stops displaying
+      // masterTimeline.addPause(43.15) // is where the header stops displaying
+      // need to loop through the text, and then get the total time for that,
+      // add that to this
+      // + 1.5 for the button
+
     }
   })
   // skipping to timeline I'm working on
-  // masterTimeline.seek(8)
+  // masterTimeline.seek(39)
 }
 
 // get the engine started
 init()
 
-
-// second engine
-
-function initSimpleIntro () {
-
-}
 
 //             __    ___  ____ __  __  ____    ____    ____  ____ __ __  __ __ ______ __   ___   __  __  __
 //            (( \  //   ||    ||\ || ||       || \\  ||    ||    || ||\ || || | || | ||  // \\  ||\ || (( \
@@ -82,9 +170,11 @@ function firstTransition () {
       timeline.add(toggleAnimationState)
 
       // declare all the elements needed
-      let mainHeading = getById('mainHeading')
-      let subHeading = getById('subHeading')
-      let skipToFav = getByClassName('skipToFav')[0]
+      let mainHeading = $('#mainHeading')
+      let subHeading = $('#subHeading')
+      let skipToFav = $('.skipToFav')[0]
+      let stepTwo = $('#stepTwo')
+
 
         // introListItems gets a little special treatment since it has childnodes that need individual animations
       let introListItems = getByClassName('introList')[0].childNodes
@@ -483,7 +573,7 @@ function seventhTransition () {
 
       timeline.to(message, .5, {opacity:0}),
       timeline.add([
-        TweenLite.to(message, 1, {text:{value:'so lets begin~', padSpace:true, ease:Linear.none}}),
+        TweenLite.to(message, 1, {text:{value:'All it takes is three things~', padSpace:true, ease:Linear.none}}),
       ])
       timeline.to(message, 1, {opacity:1}),
 
@@ -491,6 +581,8 @@ function seventhTransition () {
       timeline.to(message, 1, {opacity:0,ease:Power3.easeOut})
       timeline.to(message, 0, {opacity:0,text:{value:'', padSpace:true, ease:Linear.none}})
 
+      // cleanup intro
+      timeline.add(()=>{message.remove()})
 
       // toggle animating as false
       timeline.call(toggleAnimationState)
@@ -503,7 +595,7 @@ function seventhTransition () {
 
 // ------------------------------------------------
 // ================================================
-//          SCENE 8 - The First step
+//          SCENE 8 - The Simpler Introduction
 // ================================================
 // ------------------------------------------------
 
@@ -521,42 +613,136 @@ function eighthTransition () {
       timeline.add(toggleAnimationState)
 
       // declare all the elements needed
-      let message = $('#message')
+      let instructions = $('#instructions')
+      let instructionHeading = $('#instructionHeading')
+      let stepOne = $('#stepOne')
+      let stepTwo = $('#stepTwo')
+      let stepThree = $('#stepThree')
+      let nextButton = $('#nextButton')
+      let selectButton = $('#selectButton')
       // init audio
       let audioList = ['']
       // let audio = initAudio(audioList)
-      let messages = [
-        'Before we begin',
-        'Know that while your anxious mind ',
-        'feels quite upset right now',
-        'The discomfort and uneasiness',
-        'is only temporary',
-        `You're going to be okay.`,
+      let header = [
+
       ]
       // start animations
+      timeline.to(instructionHeading, 1,{opacity:1}).delay(.5)
 
-      timeline.to(message, 1.5,{} )
-      messages.forEach( messageText => {
-        timeline.to(message, 0, {opacity:0}),
-        timeline.add([
-          TweenLite.to(message, 1, {text:{value:messageText, padSpace:true, ease:Linear.none}}),
-        ])
-        timeline.to(message, 1, {opacity:1}),
+      let stepOneParams = [
+        { time:.5, delay:1.5 }, // Accept the Anxiety.
+        { time: 0, delay:0 },
+        { time:.2, delay:1.5 },   // The natural instinct when you're feeling anxious,
+        { time:.2, delay:1.5 },   // Is to reject it and want to run away from it,
+        { time:.2, delay:1.5 }, // To ignore it and hope that it'll go away,
+        { time:.2, delay:1.5 }, // But often, trying so hard to ignore it makes us feel worse,
+        { time:0, delay:0},
+        { time:.2, delay:2}, // Instead, a better approach is accept that the feeling will pass,
+        { time:.2, delay:2 }, // Know that you are anxious,
+        { time:.2, delay:2 },  //Know that you're going to feel a little unsettled,
+        { time:.2, delay:2 }, // That you're going to be uncomfortable for a while,
+        { time:0, delay:0},
+        { time:.2, delay:2 },   // Know that despite it all
+        { time:.2, delay:1 },   // The feeling will pass.
+      ]
 
-        timeline.to(message, 1,{} )
-        timeline.to(message, 1, {opacity:0,ease:Power3.easeOut})
-        timeline.to(message, 0, {opacity:0,text:{value:'', padSpace:true, ease:Linear.none}})
+      for( let i = 0; i < stepOneParams.length; i++ ) {
+        let { time, delay } = stepOneParams[i]
+        timeline.to(stepOne[0].children[i], time,{opacity:.8})
+        timeline.to(stepOne[0].children[i], delay,{})
+      }
+
+      timeline.to(nextButton, 1,{opacity:1}).delay(.5)
+      timeline.add( () => { masterTimeline.pause()})
+
+      // hide step one
+      timeline.add([
+          TweenLite.to(stepOne, 1,{opacity:0}),
+          TweenLite.to(instructionHeading, 1,{opacity:0}),
+      ])
+      // show step two
+      timeline.to(instructionHeading, 0, {text:{value:'Step Two.', padSpace:true, ease:Linear.none}})
+      timeline.add( ()=> {
+        stepOne.remove()
       })
 
-      timeline.to(message, .5, {opacity:0}),
-      timeline.add([
-        TweenLite.to(message, 1, {text:{value:'so lets begin~', padSpace:true, ease:Linear.none}}),
-      ])
-      timeline.to(message, 1, {opacity:1}),
 
-      timeline.to(message, 1,{} )
-      timeline.to(message, 1, {opacity:0,ease:Power3.easeOut})
-      timeline.to(message, 0, {opacity:0,text:{value:'', padSpace:true, ease:Linear.none}})
+      timeline.to(instructionHeading, 1,{opacity:1}).delay(1)
+
+      let stepTwoParams = [
+        { time:.5, delay:1.5 },
+        { time:.2, delay:1 },
+        { time: 0, delay:1 },
+        { time:.2, delay:2 },
+        { time:.2, delay:0.5 },
+        { time:.2, delay:2 },
+        { time:.2, delay:0.5 },
+        { time:.2, delay:2 },
+        { time:.2, delay:0 },
+      ]
+
+      for( let i = 0; i < stepTwoParams.length; i++ ) {
+        let { time, delay } = stepTwoParams[i]
+        timeline.to(stepTwo[0].children[i], time,{opacity:.8})
+        timeline.to(stepTwo[0].children[i], delay,{})
+      }
+
+      timeline.to(stepTwo[0].children[1], 1,{})
+      timeline.to(breather, 1,{opacity:1})
+      timeline.add( () => { masterTimeline.pause()})
+
+      // hide stepTwo
+      timeline.add([
+          TweenLite.to(stepTwo, 1,{opacity:0}),
+          TweenLite.to(instructionHeading, 1,{opacity:0}),
+          // TweenLite.to(breatherInstructions, 1,{opacity:0}),
+          // TweenLite.to(breatherCircle, 1,{opacity:0}),
+          TweenLite.to(breather, 1,{opacity:0}),
+      ])
+
+      // show step three
+      timeline.to(instructionHeading, 0, {text:{value:'Step Three.', padSpace:true, ease:Linear.none}})
+      timeline.add( ()=> {
+        stepTwo.remove()
+        breather.remove()
+      })
+      timeline.to(instructionHeading, 1,{opacity:1}).delay(1)
+
+      let stepThreeParams = [
+        { time:.5, delay:1.5 }, // Be Mindful and Present.
+        { time: 0, delay:0 },
+        { time:.2, delay:1 }, // Gently guide your mind to focus on the present,
+        { time: 0, delay:1 },
+        { time:.2, delay:2 }, // Focus on the sounds and scenery around you,
+        { time:.2, delay:1.5 }, // The colors, the contrasts
+        { time:.2, delay:1.5}, // The motion and movement
+        { time: 0, delay:1 },
+        { time:.2, delay:1.5 }, // If the environment around you is a bit too hectic,
+        { time:.2, delay:1.5 }, // You could try picking one of the handcrafted scenes,
+        { time:.2, delay:1.5 }, // Designed, and developed,
+        { time:.2, delay:1 }, //For the sole purpose of relieving Anxiety.
+      ]
+
+      for( let i = 0; i < stepThreeParams.length; i++ ) {
+        let { time, delay } = stepThreeParams[i]
+        timeline.to(stepThree[0].children[i], time,{opacity:.8})
+        timeline.to(stepThree[0].children[i], delay,{})
+      }
+
+      timeline.to(selectButton, 0, {opacity:1,text:{value:'    ', padSpace:true, ease:Linear.none}})
+      timeline.to(nextButton, .5, {text:{value:'    ', padSpace:true, ease:Linear.none}})
+      timeline.to(nextButton, 0, {autoAlpha:0})
+      timeline.to(selectButton, .5, {text:{value:'Select A Scene', padSpace:true, ease:Linear.none}})
+      timeline.to(selectButton, .5, {text:{value:'Select A Scene', padSpace:true, ease:Linear.none}})
+
+      timeline.add( () => { masterTimeline.pause()})
+
+      timeline.to(content, 1, {autoAlpha:0})
+
+      timeline.add( ()=> {
+        content.remove()
+      })
+
 
 
       // toggle animating as false
@@ -577,6 +763,9 @@ function eighthTransition () {
 // scrollMeSilly()
 
 
+function resumeAnimation() {
+  masterTimeline.play()
+}
 
 // Used to update animaion state
 function toggleAnimationState() {
@@ -788,6 +977,44 @@ function subtitleHide ( text ) {
   return TweenLite.to(subtitles, 1, {opacity:0,text:{value:` `, padSpace:true, ease:Linear.none}})
 }
 
+
+// code below from http://www.javascriptkit.com/javatutors/loadjavascriptcss2.shtml
+function createjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    return fileref
+}
+
+function replacejscssfile(oldfilename, newfilename, filetype){
+    var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist using
+    var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
+    var allsuspects=document.getElementsByTagName(targetelement)
+    for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
+        if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(oldfilename)!=-1){
+            var newelement=createjscssfile(newfilename, filetype)
+            allsuspects[i].parentNode.replaceChild(newelement, allsuspects[i])
+        }
+    }
+}
+
+function removejscssfile(filename, filetype){
+    var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
+    var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
+    var allsuspects=document.getElementsByTagName(targetelement)
+    for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
+    if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
+        allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
+    }
+}
 // ------------------------------------------------
 // ================================================
 //          SCENE x - scene description
