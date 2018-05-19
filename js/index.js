@@ -57,7 +57,7 @@ function sceneSelection () {
   let selectionScreen2 = $('#selectionScreen')
   timeline.add(()=> {content.remove()})
   timeline.to(selectionScreen2,0, {opacity:0,display:'flex'})
-  timeline.to(selectionScreen2,1, {opacity:'1!important',display:'flex'})
+  // timeline.to(selectionScreen2,1, {opacity:'1!important',display:'flex'})
   timeline.to(selectionScreen2,1, {opacity:1,display:'flex'})
 }
 
@@ -153,7 +153,7 @@ function init() {
     }
   })
   // skipping to timeline I'm working on
-  masterTimeline.seek(62)
+  // masterTimeline.seek(62)
 }
 
 // get the engine started
@@ -574,6 +574,13 @@ function seventhTransition () {
       // start animations
 
       timeline.to(message, 1.5,{} )
+      let audio = {
+        music1: new Howl({
+          src: [`./audio/music1.mp3`],
+          html5: true,
+        })
+      }
+      timeline.add(playAudio(audio, 'music1'))
       messages.forEach( messageText => {
         timeline.to(message, 0, {opacity:0}),
         timeline.add([
@@ -644,21 +651,22 @@ function eighthTransition () {
       // start animations
       timeline.to(instructionHeading, 1,{opacity:1}).delay(.5)
 
+
       let stepOneParams = [
-        { time:.5, delay:1.5 }, // Accept the Anxiety.
+        { time:1.2, delay:2 }, // Accept the Anxiety.
         { time: 0, delay:0 },
         { time:.2, delay:1.5 },   // The natural instinct when you're feeling anxious,
-        { time:.2, delay:1.5 },   // Is to reject it and want to run away from it,
-        { time:.2, delay:1.5 }, // To ignore it and hope that it'll go away,
-        { time:.2, delay:1.5 }, // But often, trying so hard to ignore it makes us feel worse,
+        { time:1.2, delay:1.5 },   // Is to reject it and want to run away from it,
+        { time:1.2, delay:1.5 }, // To ignore it and hope that it'll go away,
+        { time:1.2, delay:1.5 }, // But often, trying so hard to ignore it makes us feel worse,
         { time:0, delay:0},
-        { time:.2, delay:2}, // Instead, a better approach is accept that the feeling will pass,
-        { time:.2, delay:2 }, // Know that you are anxious,
-        { time:.2, delay:2 },  //Know that you're going to feel a little unsettled,
-        { time:.2, delay:2 }, // That you're going to be uncomfortable for a while,
+        { time:1.2, delay:2}, // Instead, a better approach is accept that the feeling will pass,
+        { time:1.2, delay:2 }, // Know that you are anxious,
+        { time:1.2, delay:2 },  //Know that you're going to feel a little unsettled,
+        { time:1.2, delay:2 }, // That you're going to be uncomfortable for a while,
         { time:0, delay:0},
-        { time:.2, delay:2 },   // Know that despite it all
-        { time:.2, delay:1 },   // The feeling will pass.
+        { time:1.2, delay:2 },   // Know that despite it all
+        { time:1.2, delay:1 },   // The feeling will pass.
       ]
 
       for( let i = 0; i < stepOneParams.length; i++ ) {
@@ -685,15 +693,15 @@ function eighthTransition () {
       timeline.to(instructionHeading, 1,{opacity:1}).delay(1)
 
       let stepTwoParams = [
-        { time:.5, delay:1.5 },
-        { time:.2, delay:1 },
+        { time:1.2, delay:2 },
+        { time:1.2, delay:1 },
         { time: 0, delay:1 },
-        { time:.2, delay:2 },
-        { time:.2, delay:0.5 },
-        { time:.2, delay:2 },
-        { time:.2, delay:0.5 },
-        { time:.2, delay:2 },
-        { time:.2, delay:0 },
+        { time:1.2, delay:2 },
+        { time:1.2, delay:0.5 },
+        { time:1.2, delay:2 },
+        { time:1.2, delay:0.5 },
+        { time:1.2, delay:2 },
+        { time:1.2, delay:0 },
       ]
 
       for( let i = 0; i < stepTwoParams.length; i++ ) {
@@ -724,18 +732,18 @@ function eighthTransition () {
       timeline.to(instructionHeading, 1,{opacity:1}).delay(1)
 
       let stepThreeParams = [
-        { time:.5, delay:1.5 }, // Be Mindful and Present.
+        { time:.8, delay:1.5 }, // Be Mindful and Present.
         { time: 0, delay:0 },
-        { time:.2, delay:1 }, // Gently guide your mind to focus on the present,
+        { time:.8, delay:1 }, // Gently guide your mind to focus on the present,
         { time: 0, delay:1 },
-        { time:.2, delay:2 }, // Focus on the sounds and scenery around you,
-        { time:.2, delay:1.5 }, // The colors, the contrasts
-        { time:.2, delay:1.5}, // The motion and movement
+        { time:.8, delay:2 }, // Focus on the sounds and scenery around you,
+        { time:.8, delay:1.5 }, // The colors, the contrasts
+        { time:.8, delay:1.5}, // The motion and movement
         { time: 0, delay:1 },
-        { time:.2, delay:1.5 }, // If the environment around you is a bit too hectic,
-        { time:.2, delay:1.5 }, // You could try picking one of the handcrafted scenes,
-        { time:.2, delay:1.5 }, // Designed, and developed,
-        { time:.2, delay:1 }, //For the sole purpose of relieving Anxiety.
+        { time:.8, delay:1.5 }, // If the environment around you is a bit too hectic,
+        { time:.8, delay:1.5 }, // You could try picking one of the handcrafted scenes,
+        { time:.8, delay:1.5 }, // Designed, and developed,
+        { time:.8, delay:1 }, //For the sole purpose of relieving Anxiety.
       ]
 
       for( let i = 0; i < stepThreeParams.length; i++ ) {

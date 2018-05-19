@@ -1,4 +1,6 @@
-$(document).ready(function() {
+var beachWaves = [];
+
+function start () {
   // init audio
   // let audio = initAudio([])
 
@@ -101,7 +103,7 @@ $(document).ready(function() {
 
 
   // init canvas
-  var canvas = $('#canvas')[0];
+  var canvas = $('#beach')[0];
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
@@ -135,15 +137,14 @@ $(document).ready(function() {
       })
     }
 
-    var particles = [];
     for(var b = 0; b < maxParts; b++) {
-      particles[b] = init[b];
+      beachWaves[b] = init[b];
     }
 
     function draw() {
       ctx.clearRect(0, 0, w, h);
-      for(var c = 0; c < particles.length; c++) {
-        var p = particles[c];
+      for(var c = 0; c < beachWaves.length; c++) {
+        var p = beachWaves[c];
         ctx.strokeStyle = `rgba(${p.color},1)`;
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
@@ -156,8 +157,8 @@ $(document).ready(function() {
 
     function move() {
       // ctx.lineWidth = 4 - (4 * (mouseY/100)) + 0.5;
-      for(var b = 0; b < particles.length; b++) {
-        var p = particles[b];
+      for(var b = 0; b < beachWaves.length; b++) {
+        var p = beachWaves[b];
         // p.x += 4 * p.l* p.xs * (mouseY/100) ;
         // p.xs = ( mouseX * 2/100 ) -1
         // p.y += p.ys * p.l*(mouseY/100);
@@ -194,90 +195,31 @@ $(document).ready(function() {
       }
     }
 
-    function wave () {
-      console.log('plog -- fired wave')
-      let flag = true
-      let i = 0
-      let flagged = 0
-      while(flag && i < particles.length) {
-        if(particles[i].motion == 'forward' || particles[i].motion == 'backward') {
-          console.log('plog -- flagged')
-          flag = false;
-        }
-        i = i + 1
-        console.log('plog -- i', i)
-      }
 
-      if(flag) {
-        particles.forEach(particle => {
-          particle.motion = 'forward'
-          particle.x = Math.random() * w
-        })
-      }
-    }
 
     setInterval(draw, 30);
 
   }
-});
+}
 
+function wave () {
+  console.log('plog -- fired wave')
+  let flag = true
+  let i = 0
+  let flagged = 0
+  while(flag && i < beachWaves.length) {
+    if(beachWaves[i].motion == 'forward' || beachWaves[i].motion == 'backward') {
+      console.log('plog -- flagged')
+      flag = false;
+    }
+    i = i + 1
+    console.log('plog -- i', i)
+  }
 
-
-function initAudio(audioList) {
-   return audioList.reduce((acc, cur) => {
-     acc[cur] = new Howl({
-       src: [`../audio/scenes/beach/${cur}.mp3`],
-       html5: true,
-       loop: true,
-     })
-     return acc
-   }, {})
- }
-
- let menuToggle = true
-
- function toggleMenu() {
-   toggleMenuIcon()
-   staggerMenuItems()
- }
-
- function toggleMenuIcon () {
-   // check current state
-   // if menu is shown then hide Hamburger display X
-   // else hide X show Hamburger
-   let iconHamWhite = getById ('icon-menu-white')
-   let iconCloseBlack = getById ('icon-close-black')
-
-   if(menuToggle) {
-     // hide Ham
-     TweenLite.to(iconHamWhite, 0.2, {opacity: 0})
-     // show X
-     TweenLite.to(iconCloseBlack, 0.2, {opacity: 1})
-   } else {
-     // hide X
-     TweenLite.to(iconCloseBlack, 0.2, {opacity: 0})
-     // show Ham
-     TweenLite.to(iconHamWhite, 0.2, {opacity: 1}).delay(0.5)
-   }
-
-   // toggle state
-   menuToggle = !menuToggle
- }
-
- function staggerMenuItems () {
-   // let menuItems = getByClassName('sideMenuList').childNodes
-   let menuItems = getByClassName('sideMenuList')[0].childNodes
-   if(menuToggle) {
-     TweenLite.to(menuItems, 0.2, {opacity: 0})
-   } else {
-     TweenMax.staggerFrom(menuItems, 0.3, {opacity:0,x:-300},0.05)
-   }
- }
-
- function getById ( targetId ) {
-   return document.getElementById(targetId)
- }
-
- function getByClassName ( targetClass ) {
-   return document.getElementsByClassName(targetClass)
- }
+  if(flag) {
+    beachWaves.forEach(particle => {
+      particle.motion = 'forward'
+      particle.x = Math.random() * w
+    })
+  }
+}
