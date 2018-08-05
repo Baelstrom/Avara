@@ -50,6 +50,7 @@ p {
   text-align: center;
   text-decoration: none;
   font-size: 4vmin;
+  color: #333;
 }
 #sideBar a:visited {
   color: #333;
